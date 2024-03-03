@@ -10,18 +10,18 @@ To solve the exercises, head to the [PHP track][exercism-track-home] and check t
 The following system dependencies are required:
 
 - `composer`, as recommended in the [PHP track installation docs][exercism-track-installation-composer].
-- [`bash` shell][gnu-bash]
+- [`bash` shell][gnu-bash].
+- An active Internet connection for installing required tools / composer packages.
 
-Run the following commands to get started with this project:
+Run the following command to get started with this project:
 
 ```shell
-bin/fetch-configlet # The official tool for managing Exercism language track repositories
 composer install # Required dependencies to develop this track
 ```
 
 ## Running Exercism resources management
 
-`bin/configlet` is a tool to manage exercism resources in this track.
+`bin/configlet` is the official tool for managing Exercism language track repositories.
 See [Building Exercism docs][exercism-configlet].
 
 ## Running Unit Test Suite
@@ -48,8 +48,9 @@ composer lint:fix # Automatically fix codestyle issues
 
 - Read the documentation at [Exercism][exercism-docs].
 - Follow the [PSR-12] coding style (Exercisms PHP track uses a slightly [modified][local-file-phpcs-config] version of [PSR-12]).
+- Run `composer ci` to run CI checks locally before pushing.
 - CI is run on all pull requests, it must pass the required checks for merge.
-- CI is running all tests on PHP 8.0 to PHP 8.2
+- CI is running all tests on PHP 8.0 to PHP 8.2 for Linux, Windows and MacOS.
 
 [exercism-configlet]: https://exercism.org/docs/building/configlet
 [exercism-docs]: https://exercism.org/docs
