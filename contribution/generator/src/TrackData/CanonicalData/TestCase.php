@@ -48,19 +48,6 @@ class TestCase
         );
     }
 
-    private function testMethodName(): string
-    {
-        $sanitizedDescription = \preg_replace('/\W+/', ' ', $this->description);
-
-        $methodNameParts = \explode(' ', $sanitizedDescription);
-        $upperCasedParts = \array_map(
-            fn ($part) => \ucfirst($part),
-            $methodNameParts
-        );
-
-        return \lcfirst(\implode('', $upperCasedParts));
-    }
-
     public function renderPhpCode(): string
     {
         return \sprintf(
@@ -87,6 +74,19 @@ class TestCase
     private function template(): string
     {
         return \file_get_contents(__DIR__ . '/test-case.txt');
+    }
+
+    private function testMethodName(): string
+    {
+        $sanitizedDescription = \preg_replace('/\W+/', ' ', $this->description);
+
+        $methodNameParts = \explode(' ', $sanitizedDescription);
+        $upperCasedParts = \array_map(
+            fn ($part) => \ucfirst($part),
+            $methodNameParts
+        );
+
+        return \lcfirst(\implode('', $upperCasedParts));
     }
 
     private function renderUnknownData(): string
