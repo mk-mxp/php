@@ -4,7 +4,6 @@ namespace App\Tests\TestGeneration\TestCase;
 
 use App\Tests\TestGeneration\ScenarioFixture;
 use App\TrackData\CanonicalData\Unknown;
-use PhpParser\PrettyPrinter\Standard;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
@@ -14,20 +13,6 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 final class UnknownTest extends PHPUnitTestCase
 {
     use ScenarioFixture;
-
-    #[Test]
-    #[TestDox('Old $_dataName')]
-    #[DataProvider('renderingScenarios')]
-    public function testOldRenderingScenario(
-        string $scenario,
-    ): void {
-        $expected =  $this->expectedFor($scenario);
-        $subject = $this->subjectFor($scenario);
-
-        $actual = $subject->asClassMethods('fallback_method_name');
-
-        $this->assertStringContainsString($expected, $this->toPhpCode($actual));
-    }
 
     #[Test]
     #[TestDox('$_dataName')]
@@ -56,10 +41,5 @@ final class UnknownTest extends PHPUnitTestCase
     private function subjectFor(string $scenario): Unknown
     {
         return Unknown::from($this->rawDataFor($scenario));
-    }
-
-    private function toPhpCode(array $statements): string
-    {
-        return (new Standard())->prettyPrint($statements);
     }
 }
