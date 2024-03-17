@@ -46,4 +46,18 @@ class Unknown
             . ' */'
             ;
     }
+
+    public function renderPhpCode(string $methodName): string
+    {
+        return \sprintf(
+            $this->template(),
+            $methodName,
+            \json_encode($this->data),
+        );
+    }
+
+    private function template(): string
+    {
+        return \file_get_contents(__DIR__ . '/unknown.txt');
+    }
 }

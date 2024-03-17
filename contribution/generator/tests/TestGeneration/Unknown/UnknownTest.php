@@ -16,9 +16,9 @@ final class UnknownTest extends PHPUnitTestCase
     use ScenarioFixture;
 
     #[Test]
-    #[TestDox('$_dataName')]
+    #[TestDox('Old $_dataName')]
     #[DataProvider('renderingScenarios')]
-    public function testRenderingScenario(
+    public function testOldRenderingScenario(
         string $scenario,
     ): void {
         $expected =  $this->expectedFor($scenario);
@@ -27,6 +27,20 @@ final class UnknownTest extends PHPUnitTestCase
         $actual = $subject->asClassMethods('fallback_method_name');
 
         $this->assertStringContainsString($expected, $this->toPhpCode($actual));
+    }
+
+    #[Test]
+    #[TestDox('$_dataName')]
+    #[DataProvider('renderingScenarios')]
+    public function testRenderingScenario(
+        string $scenario,
+    ): void {
+        $expected =  $this->expectedFor($scenario);
+        $subject = $this->subjectFor($scenario);
+
+        $actual = $subject->renderPhpCode('fallback_method_name');
+
+        $this->assertStringContainsString($expected, $actual);
     }
 
     public static function renderingScenarios(): array

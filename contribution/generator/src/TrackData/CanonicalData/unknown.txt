@@ -1,0 +1,6 @@
+/* Unknown data:
+ * %2$s
+ */
+function %1$s()
+{
+}
