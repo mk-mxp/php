@@ -134,4 +134,50 @@ class TestCase
             . ' */'
             ;
     }
+
+    public function renderPhpCode(): string
+    {
+        return \sprintf(
+            $this->template(),
+            $this->testMethodName(),
+            $this->renderUnknownData(),
+            $this->renderInputData(),
+            \var_export($this->expected, true),
+            $this->uuid,
+            \ucfirst($this->description),
+            $this->property,
+        );
+    }
+
+    /**
+     * %1$s Method name
+     * %2$s Unknow data
+     * %3$s Input data
+     * %4$s Expected data
+     * %5$s UUID
+     * %6$s testdox
+     * %7$s property (method to call)
+     */
+    private function template(): string
+    {
+        return \file_get_contents(__DIR__ . '/test-case.txt');
+    }
+
+    private function renderUnknownData(): string
+    {
+        if ($this->unknown === null)
+            return '';
+        return 'Unknown data:' . self::LF
+            . ' * ' . \json_encode($this->unknown) . self::LF
+            . ' * ' . self::LF
+            . ' * '
+            ;
+    }
+
+    private function renderInputData(): string
+    {
+        $indent = '    ';
+        $varAsString = \var_export((array)$this->input, true);
+        return \implode("\n" . $indent, \explode("\n", $varAsString));
+    }
 }

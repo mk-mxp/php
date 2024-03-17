@@ -1,0 +1,16 @@
+/**
+ * %2$suuid: %5$s
+ * @testdox %6$s
+ * @test
+ */
+public function %1$s(): void
+{
+    $this->markTestSkipped('This test has not been implemented yet.');
+    
+    $input = %3$s;
+    $expected = %4$s;
+    
+    $actual = $this->subject->%7$s(...$input);
+    
+    $this->assertSame($expected, $actual);
+}
