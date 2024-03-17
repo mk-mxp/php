@@ -120,6 +120,6 @@ class CanonicalData
     private function indent(string $lines): string
     {
         $indent = '    ';
-        return $indent . \implode("\n" . $indent, \explode("\n", $lines));
+        return $indent . \implode(self::LF . $indent, \explode(self::LF, $lines));
     }
 }

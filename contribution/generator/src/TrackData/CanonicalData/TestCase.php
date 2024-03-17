@@ -177,6 +177,6 @@ class TestCase
     private function indentTrailingLines(string $lines): string
     {
         $indent = '    ';
-        return \implode("\n" . $indent, \explode("\n", $lines));
+        return \implode(self::LF . $indent, \explode(self::LF, $lines));
     }
 }
