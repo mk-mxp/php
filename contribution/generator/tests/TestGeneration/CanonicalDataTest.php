@@ -30,7 +30,22 @@ final class CanonicalDataTest extends TestCase
         $this->assertStringContainsString($expected, $actual);
     }
 
-    // TODO: Add test for varying solution file name
+    #[Test]
+    #[TestDox('When given a different solution file name, then renders that file name into stub')]
+    public function rendersSolutionFileName(): void {
+        $scenario = 'different-solution-file-name';
+        $expected =  $this->expectedFor($scenario);
+        $subject = $this->subjectFor($scenario);
+
+        $actual = $subject->renderPhpCode(
+            'SomeTestClass',
+            'DifferentSolutionFile.php',
+            'SomeSolutionClass',
+        );
+
+        $this->assertStringContainsString($expected, $actual);
+    }
+
     // TODO: Add test for varying solution class name
 
     #[Test]
