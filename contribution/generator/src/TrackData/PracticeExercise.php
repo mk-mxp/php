@@ -52,7 +52,7 @@ class PracticeExercise implements Exercise
         $this->ensurePracticeExerciseCanBeUsed();
 
         return CanonicalData::from($this->loadCanonicalData())
-        ->toPhpCode(
+        ->renderPhpCode(
             $this->classNameFrom($this->testFileName()),
             $this->solutionFileName(),
             $this->classNameFrom($this->solutionFileName()),
