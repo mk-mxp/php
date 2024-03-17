@@ -59,13 +59,16 @@ class CanonicalData
             ;
     }
 
-    public function renderPhpCode(): string
+    public function renderPhpCode(
+        string $testClassName,
+    ): string
     {
         return \sprintf(
             $this->template(),
             $this->renderUnknownData(),
             $this->renderTests(),
             $this->renderComments(),
+            $testClassName,
         );
     }
 
@@ -73,6 +76,7 @@ class CanonicalData
      * %1$s Unknow data
      * %2$s Pre-rendered list of tests
      * %3$s Comments for DocBlock
+     * %4$s Test class name
      */
     private function template(): string
     {

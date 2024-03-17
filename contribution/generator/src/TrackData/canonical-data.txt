@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  * - Add fail messages to assertions where helpful to tell students more
  *   than `@testdox` says.
  */
-final class SomeTestClass extends TestCase
+final class %4$s extends TestCase
 {
     private SomeSolutionClass $subject;
     

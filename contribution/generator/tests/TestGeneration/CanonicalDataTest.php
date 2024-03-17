@@ -14,7 +14,22 @@ final class CanonicalDataTest extends TestCase
 {
     use ScenarioFixture;
 
-    // TODO: Add test for varying test class name
+    #[Test]
+    #[TestDox('When given a different test class name, then renders that test class name into stub')]
+    public function rendersTestClassName(): void {
+        $scenario = 'different-test-class-name';
+        $expected =  $this->expectedFor($scenario);
+        $subject = $this->subjectFor($scenario);
+
+        $actual = $subject->renderPhpCode(
+            'DifferentTestClassName',
+            'SomeSolutionFile.ext',
+            'SomeSolutionClass',
+        );
+
+        $this->assertStringContainsString($expected, $actual);
+    }
+
     // TODO: Add test for varying solution file name
     // TODO: Add test for varying solution class name
 
@@ -41,6 +56,7 @@ final class CanonicalDataTest extends TestCase
         return [
             'When given an empty object, then renders only test class stub'
                 => [ 'empty-object' ],
+
             'When given object with "exercise", then ignores it'
                 => [ 'ignore-exercise' ],
             'When given object with only unknown keys, then renders JSON in multi-line comment'
