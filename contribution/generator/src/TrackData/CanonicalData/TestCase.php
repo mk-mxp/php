@@ -141,8 +141,8 @@ class TestCase
             $this->template(),
             $this->testMethodName(),
             $this->renderUnknownData(),
-            $this->renderInputData(),
-            \var_export($this->expected, true),
+            $this->indentTrailingLines(\var_export((array)$this->input, true)),
+            $this->indentTrailingLines(\var_export($this->expected, true)),
             $this->uuid,
             \ucfirst($this->description),
             $this->property,
@@ -174,10 +174,9 @@ class TestCase
             ;
     }
 
-    private function renderInputData(): string
+    private function indentTrailingLines(string $lines): string
     {
         $indent = '    ';
-        $varAsString = \var_export((array)$this->input, true);
-        return \implode("\n" . $indent, \explode("\n", $varAsString));
+        return \implode("\n" . $indent, \explode("\n", $lines));
     }
 }

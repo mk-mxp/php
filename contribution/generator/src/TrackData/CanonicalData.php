@@ -174,4 +174,58 @@ class CanonicalData
           than `@testdox` says.
         EO_TRACK_RULES);
     }
+
+    public function renderPhpCode(): string
+    {
+        return \sprintf(
+            $this->template(),
+            $this->renderUnknownData(),
+            $this->renderTests(),
+            $this->renderComments(),
+        );
+    }
+
+    /**
+     * %1$s Unknow data
+     * %2$s Pre-rendered list of tests
+     * %3$s Comments for DocBlock
+     */
+    private function template(): string
+    {
+        return \file_get_contents(__DIR__ . '/canonical-data.txt');
+    }
+
+    private function renderUnknownData(): string
+    {
+        if ($this->unknown === null)
+            return '';
+        return $this->asMultiLineComment([\json_encode($this->unknown)]);
+    }
+
+    private function renderTests(): string
+    {
+        $tests = \implode(self::LF, \array_map(
+            fn ($case, $count): string => $case->renderPhpCode('unknownMethod' . $count),
+            $this->testCases,
+            \array_keys($this->testCases),
+        ));
+
+        return empty($tests) ? '' : $this->indent($tests) . self::LF;
+    }
+
+    private function renderComments(): string
+    {
+        return empty($this->comments) ? '' : $this->forBlockComment([...$this->comments, '', '']);
+    }
+
+    private function forBlockComment(array $lines): string
+    {
+        return \implode(self::LF . ' * ', $lines);
+    }
+
+    private function indent(string $lines): string
+    {
+        $indent = '    ';
+        return $indent . \implode("\n" . $indent, \explode("\n", $lines));
+    }
 }
