@@ -28,6 +28,6 @@ final class %4$s extends TestCase
     
     public function setUp(): void
     {
-        $this->subject = new SomeSolutionClass();
+        $this->subject = new %6$s();
     }
 %2$s}

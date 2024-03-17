@@ -62,6 +62,7 @@ class CanonicalData
     public function renderPhpCode(
         string $testClassName,
         string $solutionFileName,
+        string $solutionClassName,
     ): string
     {
         return \sprintf(
@@ -71,6 +72,7 @@ class CanonicalData
             $this->renderComments(),
             $testClassName,
             $solutionFileName,
+            $solutionClassName,
         );
     }
 
@@ -80,6 +82,7 @@ class CanonicalData
      * %3$s Comments for DocBlock
      * %4$s Test class name
      * %5$s Solution file name
+     * %6$s Solution class name
      */
     private function template(): string
     {
