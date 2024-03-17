@@ -6,7 +6,6 @@ namespace App\TrackData;
 
 use App\Configlet;
 use App\TrackData\CanonicalData;
-use App\TrackData\CanonicalData\TestCase;
 use App\TrackData\Exercise;
 use RuntimeException;
 use Symfony\Contracts\Service\Attribute\Required;
@@ -68,6 +67,7 @@ class PracticeExercise implements Exercise
     {
         $this->ensurePracticeExerciseCanBeUsed();
 
+        // TODO: Implement this...
         return 'To be defined';
     }
 
@@ -101,19 +101,6 @@ class PracticeExercise implements Exercise
         }
 
         return $this->configFiles;
-    }
-
-    private function hydrateTestCasesFrom(array $rawData): array
-    {
-        // TODO: Validate
-        return array_map(fn ($case) => new TestCase(
-            $case->uuid ?? null,
-            $case->description ?? null,
-            $case->property ?? null,
-            $case->input ?? null,
-            $case->expected ?? null,
-            $case->comments ?? [],
-        ), $rawData);
     }
 
     private function ensurePracticeExerciseCanBeUsed(): void
