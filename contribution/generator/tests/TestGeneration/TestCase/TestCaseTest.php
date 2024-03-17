@@ -4,7 +4,6 @@ namespace App\Tests\TestGeneration\TestCase;
 
 use App\Tests\TestGeneration\ScenarioFixture;
 use App\TrackData\CanonicalData\TestCase;
-use PhpParser\PrettyPrinter\Standard;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
@@ -45,20 +44,6 @@ final class TestCaseTest extends PHPUnitTestCase
     }
 
     #[Test]
-    #[TestDox('Old $_dataName')]
-    #[DataProvider('renderingScenarios')]
-    public function testOldRenderingScenario(
-        string $scenario,
-    ): void {
-        $expected =  $this->expectedFor($scenario);
-        $subject = $this->subjectFor($scenario);
-
-        $actual = $subject->asClassMethods();
-
-        $this->assertStringContainsString($expected, $this->toPhpCode($actual));
-    }
-
-    #[Test]
     #[TestDox('$_dataName')]
     #[DataProvider('renderingScenarios')]
     public function testRenderingScenario(
@@ -87,10 +72,5 @@ final class TestCaseTest extends PHPUnitTestCase
     private function subjectFor(string $scenario): ?TestCase
     {
         return TestCase::from($this->rawDataFor($scenario));
-    }
-
-    private function toPhpCode(array $statements): string
-    {
-        return (new Standard())->prettyPrint($statements);
     }
 }
