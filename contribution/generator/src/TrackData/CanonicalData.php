@@ -50,15 +50,6 @@ class CanonicalData
         );
     }
 
-    private function asMultiLineComment(array $lines): string
-    {
-        return self::LF
-            . '/* Unknown data:' . self::LF
-            . ' * ' . implode(self::LF . ' * ', $lines) . self::LF
-            . ' */' . self::LF
-            ;
-    }
-
     public function renderPhpCode(
         string $testClassName,
         string $solutionFileName,
@@ -115,6 +106,15 @@ class CanonicalData
     private function forBlockComment(array $lines): string
     {
         return \implode(self::LF . ' * ', $lines);
+    }
+
+    private function asMultiLineComment(array $lines): string
+    {
+        return self::LF
+            . '/* Unknown data:' . self::LF
+            . ' * ' . implode(self::LF . ' * ', $lines) . self::LF
+            . ' */' . self::LF
+            ;
     }
 
     private function indent(string $lines): string
