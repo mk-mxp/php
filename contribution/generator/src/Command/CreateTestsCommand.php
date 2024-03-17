@@ -41,8 +41,11 @@ class CreateTestsCommand extends Command
             $this->exercise->pathToTestFile(),
             $this->exercise->testFileContent(),
         );
-        // TODO: Make '$this->exercise->pathToSolutionFile()'
-        // TODO: Make '$this->exercise->solutionFileContent()'
+
+        \file_put_contents(
+            $this->exercise->pathToSolutionFile(),
+            $this->exercise->solutionFileContent(),
+        );
 
         $io->success('Generating Tests - Finished');
         return Command::SUCCESS;
