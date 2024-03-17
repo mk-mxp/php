@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Tests\TestCase;
+namespace App\Tests\TestGeneration\TestCase;
 
+use App\Tests\TestGeneration\ScenarioFixture;
 use App\TrackData\CanonicalData\Unknown;
 use PhpParser\PrettyPrinter\Standard;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -9,9 +10,11 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-#[TestDox('Unknown (App\Tests\TestCase\UnknownTest)')]
+#[TestDox('Unknown (App\Tests\TestGeneration\TestCase\UnknownTest)')]
 final class UnknownTest extends PHPUnitTestCase
 {
+    use ScenarioFixture;
+
     #[Test]
     #[TestDox('$_dataName')]
     #[DataProvider('renderingScenarios')]
@@ -36,23 +39,9 @@ final class UnknownTest extends PHPUnitTestCase
         ];
     }
 
-    private function expectedFor(string $scenario): string
-    {
-        return \file_get_contents(
-            __DIR__ . '/fixtures/' . $scenario . '/expected.txt'
-        );
-    }
-
     private function subjectFor(string $scenario): Unknown
     {
-        $input = \json_decode(
-            json: \file_get_contents(
-                __DIR__ . '/fixtures/' . $scenario . '/input.json'
-            ),
-            flags: JSON_THROW_ON_ERROR
-        );
-
-        return Unknown::from($input);
+        return Unknown::from($this->rawDataFor($scenario));
     }
 
     private function toPhpCode(array $statements): string

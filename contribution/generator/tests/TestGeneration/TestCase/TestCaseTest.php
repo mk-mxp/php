@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Tests\TestCase;
+namespace App\Tests\TestGeneration\TestCase;
 
+use App\Tests\TestGeneration\ScenarioFixture;
 use App\TrackData\CanonicalData\TestCase;
 use PhpParser\PrettyPrinter\Standard;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -9,9 +10,11 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-#[TestDox('Test Case (App\Tests\TestCase\TestCaseTest)')]
+#[TestDox('Test Case (App\Tests\TestGeneration\TestCase\TestCaseTest)')]
 final class TestCaseTest extends PHPUnitTestCase
 {
+    use ScenarioFixture;
+
     #[Test]
     #[TestDox('$_dataName')]
     #[DataProvider('nonRenderingScenarios')]
@@ -67,23 +70,9 @@ final class TestCaseTest extends PHPUnitTestCase
         ];
     }
 
-    private function expectedFor(string $scenario): string
-    {
-        return \file_get_contents(
-            __DIR__ . '/fixtures/' . $scenario . '/expected.txt'
-        );
-    }
-
     private function subjectFor(string $scenario): ?TestCase
     {
-        $input = \json_decode(
-            json: \file_get_contents(
-                __DIR__ . '/fixtures/' . $scenario . '/input.json'
-            ),
-            flags: JSON_THROW_ON_ERROR
-        );
-
-        return TestCase::from($input);
+        return TestCase::from($this->rawDataFor($scenario));
     }
 
     private function toPhpCode(array $statements): string

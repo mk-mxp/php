@@ -1,16 +1,19 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\TestGeneration;
 
+use App\Tests\TestGeneration\ScenarioFixture;
 use App\TrackData\CanonicalData;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
-#[TestDox('Canonical Data (App\Tests\CanonicalDataTest)')]
+#[TestDox('Canonical Data (App\Tests\TestGeneration\CanonicalDataTest)')]
 final class CanonicalDataTest extends TestCase
 {
+    use ScenarioFixture;
+
     #[Test]
     #[TestDox('$_dataName')]
     #[DataProvider('renderingScenarios')]
@@ -55,22 +58,8 @@ final class CanonicalDataTest extends TestCase
         ];
     }
 
-    private function expectedFor(string $scenario): string
-    {
-        return \file_get_contents(
-            __DIR__ . '/fixtures/' . $scenario . '/expected.txt'
-        );
-    }
-
     private function subjectFor(string $scenario): CanonicalData
     {
-        $input = \json_decode(
-            json: \file_get_contents(
-                __DIR__ . '/fixtures/' . $scenario . '/input.json'
-            ),
-            flags: JSON_THROW_ON_ERROR
-        );
-
-        return CanonicalData::from($input);
+        return CanonicalData::from($this->rawDataFor($scenario));
     }
 }
