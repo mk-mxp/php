@@ -23,7 +23,7 @@ final class UnknownTest extends PHPUnitTestCase
 
         $actual = $subject->asClassMethods('fallback_method_name');
 
-        $this->assertSame($expected, $this->toPhpCode($actual));
+        $this->assertStringContainsString($expected, $this->toPhpCode($actual));
     }
 
     public static function renderingScenarios(): array

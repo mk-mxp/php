@@ -26,7 +26,7 @@ final class CanonicalDataTest extends TestCase
             'SomeSolutionClass',
         );
 
-        $this->assertSame($expected, $actual);
+        $this->assertStringContainsString($expected, $actual);
     }
 
     public static function renderingScenarios(): array

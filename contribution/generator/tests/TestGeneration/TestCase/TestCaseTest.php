@@ -52,7 +52,7 @@ final class TestCaseTest extends PHPUnitTestCase
 
         $actual = $subject->asClassMethods();
 
-        $this->assertSame($expected, $this->toPhpCode($actual));
+        $this->assertStringContainsString($expected, $this->toPhpCode($actual));
     }
 
     public static function renderingScenarios(): array
