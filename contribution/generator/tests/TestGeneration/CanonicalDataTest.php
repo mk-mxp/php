@@ -14,23 +14,9 @@ final class CanonicalDataTest extends TestCase
 {
     use ScenarioFixture;
 
-    #[Test]
-    #[TestDox('Old $_dataName')]
-    #[DataProvider('renderingScenarios')]
-    public function testOldRenderingScenario(
-        string $scenario,
-    ): void {
-        $expected =  $this->expectedFor($scenario);
-        $subject = $this->subjectFor($scenario);
-
-        $actual = $subject->toPhpCode(
-            'SomeTestClass',
-            'SomeSolutionFile.ext',
-            'SomeSolutionClass',
-        );
-
-        $this->assertStringContainsString($expected, $actual);
-    }
+    // TODO: Add test for varying test class name
+    // TODO: Add test for varying solution file name
+    // TODO: Add test for varying solution class name
 
     #[Test]
     #[TestDox('$_dataName')]
