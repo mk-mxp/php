@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\TestGeneration;
+namespace App\Tests\TestGeneration\CanonicalData;
 
 use App\Tests\TestGeneration\ScenarioFixture;
 use App\TrackData\CanonicalData;
@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
-#[TestDox('Canonical Data (App\Tests\TestGeneration\CanonicalDataTest)')]
+#[TestDox('Canonical Data (App\Tests\TestGeneration\CanonicalData\CanonicalDataTest)')]
 final class CanonicalDataTest extends TestCase
 {
     use ScenarioFixture;
