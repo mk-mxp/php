@@ -9,8 +9,14 @@ namespace App\TrackData;
  */
 class Group
 {
+    /**
+     * PHP_EOL is CRLF on Windows, we always want LF
+     * @see https://www.php.net/manual/en/reserved.constants.php#constant.php-eol
+     */
+    private const LF = "\n";
+
     private function __construct(
-        private ?array $data = null,
+        private array $cases,
     ) {
     }
 
@@ -19,11 +25,24 @@ class Group
         if (!\is_array($rawData))
             return null;
 
-        return new static($rawData);
+        $testCases = [];
+        foreach($rawData as $rawCase) {
+            $thisCase = TestCase::from($rawCase);
+            if ($thisCase === null)
+                $thisCase = Unknown::from($rawCase);
+            $testCases[] = $thisCase;
+        }
+
+        return new static($testCases);
     }
 
     public function renderPhpCode(): string
     {
-        return '';
+        $tests = \implode(self::LF, \array_map(
+            fn ($case): string => $case->renderPhpCode(),
+            $this->cases,
+        ));
+
+        return empty($tests) ? '' : $tests . self::LF;
     }
 }
