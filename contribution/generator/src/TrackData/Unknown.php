@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\TrackData\CanonicalData;
+namespace App\TrackData;
 
 /**
  * Represents a 'cases' entry, that is not one of the known types

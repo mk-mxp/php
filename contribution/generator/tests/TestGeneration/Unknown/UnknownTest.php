@@ -3,7 +3,7 @@
 namespace App\Tests\TestGeneration\TestCase;
 
 use App\Tests\TestGeneration\ScenarioFixture;
-use App\TrackData\CanonicalData\Unknown;
+use App\TrackData\Unknown;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
