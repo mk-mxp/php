@@ -14,8 +14,11 @@ class Group
     ) {
     }
 
-    public static function from(array $rawData): self
+    public static function from(mixed $rawData): ?self
     {
+        if (!\is_array($rawData))
+            return null;
+
         return new static($rawData);
     }
 

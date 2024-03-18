@@ -16,6 +16,25 @@ final class GroupTest extends PHPUnitTestCase
 
     #[Test]
     #[TestDox('$_dataName')]
+    #[DataProvider('nonRenderingScenarios')]
+    public function testNonRenderingScenario(
+        string $scenario,
+    ): void {
+        $subject = $this->subjectFor($scenario);
+
+        $this->assertNull($subject);
+    }
+
+    public static function nonRenderingScenarios(): array
+    {
+        return [
+            'When given an object, then returns null'
+                => [ 'object' ],
+        ];
+    }
+
+    #[Test]
+    #[TestDox('$_dataName')]
     #[DataProvider('renderingScenarios')]
     public function testRenderingScenario(
         string $scenario,
@@ -30,12 +49,12 @@ final class GroupTest extends PHPUnitTestCase
     public static function renderingScenarios(): array
     {
         return [
-            'When given an empty list, then renders nothing'
+            'When given an empty list, then renders empty string'
                 => [ 'empty-list' ],
         ];
     }
 
-    private function subjectFor(string $scenario): Group
+    private function subjectFor(string $scenario): ?Group
     {
         return Group::from($this->rawDataFor($scenario));
     }
