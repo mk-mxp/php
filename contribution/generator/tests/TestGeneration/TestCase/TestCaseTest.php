@@ -49,12 +49,11 @@ final class TestCaseTest extends PHPUnitTestCase
     public function testRenderingScenario(
         string $scenario,
     ): void {
-        $expected =  $this->expectedFor($scenario);
         $subject = $this->subjectFor($scenario);
 
         $actual = $subject->renderPhpCode();
 
-        $this->assertStringContainsString($expected, $actual);
+        $this->assertStringContainsAllOfScenario($scenario, $actual);
     }
 
     public static function renderingScenarios(): array

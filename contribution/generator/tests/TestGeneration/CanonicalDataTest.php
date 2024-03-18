@@ -18,7 +18,6 @@ final class CanonicalDataTest extends TestCase
     #[TestDox('When given a different test class name, then renders that test class name into stub')]
     public function rendersTestClassName(): void {
         $scenario = 'different-test-class-name';
-        $expected =  $this->expectedFor($scenario);
         $subject = $this->subjectFor($scenario);
 
         $actual = $subject->renderPhpCode(
@@ -27,14 +26,13 @@ final class CanonicalDataTest extends TestCase
             'SomeSolutionClass',
         );
 
-        $this->assertStringContainsString($expected, $actual);
+        $this->assertStringContainsAllOfScenario($scenario, $actual);
     }
 
     #[Test]
     #[TestDox('When given a different solution file name, then renders that file name into stub')]
     public function rendersSolutionFileName(): void {
         $scenario = 'different-solution-file-name';
-        $expected =  $this->expectedFor($scenario);
         $subject = $this->subjectFor($scenario);
 
         $actual = $subject->renderPhpCode(
@@ -43,14 +41,13 @@ final class CanonicalDataTest extends TestCase
             'SomeSolutionClass',
         );
 
-        $this->assertStringContainsString($expected, $actual);
+        $this->assertStringContainsAllOfScenario($scenario, $actual);
     }
 
     #[Test]
     #[TestDox('When given a different solution class name, then renders that class name into stub')]
     public function rendersSolutionClassName(): void {
         $scenario = 'different-solution-class-name';
-        $expected =  $this->expectedFor($scenario);
         $subject = $this->subjectFor($scenario);
 
         $actual = $subject->renderPhpCode(
@@ -59,7 +56,7 @@ final class CanonicalDataTest extends TestCase
             'DifferentSolutionClassName',
         );
 
-        $this->assertStringContainsString($expected, $actual);
+        $this->assertStringContainsAllOfScenario($scenario, $actual);
     }
 
     #[Test]
@@ -68,7 +65,6 @@ final class CanonicalDataTest extends TestCase
     public function testRenderingScenario(
         string $scenario,
     ): void {
-        $expected =  $this->expectedFor($scenario);
         $subject = $this->subjectFor($scenario);
 
         $actual = $subject->renderPhpCode(
@@ -77,7 +73,7 @@ final class CanonicalDataTest extends TestCase
             'SomeSolutionClass',
         );
 
-        $this->assertStringContainsString($expected, $actual);
+        $this->assertStringContainsAllOfScenario($scenario, $actual);
     }
 
     public static function renderingScenarios(): array

@@ -20,12 +20,11 @@ final class UnknownTest extends PHPUnitTestCase
     public function testRenderingScenario(
         string $scenario,
     ): void {
-        $expected =  $this->expectedFor($scenario);
         $subject = $this->subjectFor($scenario);
 
         $actual = $subject->renderPhpCode('fallback_method_name');
 
-        $this->assertStringContainsString($expected, $actual);
+        $this->assertStringContainsAllOfScenario($scenario, $actual);
     }
 
     public static function renderingScenarios(): array
