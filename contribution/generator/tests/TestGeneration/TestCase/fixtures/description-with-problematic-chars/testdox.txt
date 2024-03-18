@@ -1,12 +1,7 @@
-/**
- * Unknown data:
- * {"some-unknown-property":"This shall show up in DocBlock."}
- * 
- * uuid: 31a673f2-5e54-49fe-bd79-1c1dae476c9c
- * @testdox Some description
+@testdox *+^-#.,'`"<>= so_me *+-,'^`"#.<>= descri*,'`"\+-#.<>=ption *^+-#.with trailing space!<>=,'`" 
  * @test
  */
-public function someDescription(): void
+public function so_meDescriPtionWithTrailingSpace(): void
 {
     $this->markTestSkipped('This test has not been implemented yet.');
     

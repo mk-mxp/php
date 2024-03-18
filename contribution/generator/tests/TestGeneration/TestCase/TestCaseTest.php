@@ -59,12 +59,26 @@ final class TestCaseTest extends PHPUnitTestCase
     public static function renderingScenarios(): array
     {
         return [
-            'When given an object with all required properties, then renders method'
-                => [ 'all-required' ],
-            'When given an object with all required properties and an unknown one, then renders method with JSON in DocBlock'
-                => [ 'all-required-with-unknown' ],
-            'When given a valid object with problematic chars in description, then renders method name without those'
-                => [ 'all-required-with-problematic-description' ],
+            // This scenario asserts on the constant parts and their position in relation to the varying part(s)
+            'When given a valid object and an unknown one, then renders all non-varying parts where they belong'
+                => [ 'non-varying-parts' ],
+            // These scenarios assert on the varying part(s)
+            'When given a valid object, then renders uuid'
+                => [ 'uuid' ],
+            'When given a valid object, then renders description as @testdox and method name'
+                => [ 'description' ],
+            'When given a valid object with problematic chars in description, then renders @testdox with and method name without those'
+                => [ 'description-with-problematic-chars' ],
+            'When given a valid object, then renders input object as PHP literal value'
+                => [ 'input' ],
+            'When given a valid object, then renders expected as PHP literal value'
+                => [ 'expected' ],
+            'When given a valid object, then renders property as method call on subject'
+                => [ 'property' ],
+            'When given a valid object and an unknown key, then renders unknown key as JSON'
+                => [ 'unknown' ],
+            'When given a valid object and no unknown key, then renders no JSON'
+                => [ 'no-unknown' ],
         ];
     }
 
