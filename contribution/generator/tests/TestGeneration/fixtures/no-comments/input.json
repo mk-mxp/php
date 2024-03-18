@@ -1,0 +1,6 @@
+{
+    "exercise": "some-exercise-slug",
+    "cases": [
+        { "some-unknown-case-item": "some value" }
+    ]
+}

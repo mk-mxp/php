@@ -79,27 +79,48 @@ final class CanonicalDataTest extends TestCase
     public static function renderingScenarios(): array
     {
         return [
-            'When given an empty object, then renders only test class stub'
-                => [ 'empty-object' ],
+            // This scenario asserts on the constant parts and their position in relation to the varying part(s)
+            'When given a valid object with all keys, then renders all non-varying parts where they belong'
+                => [ 'non-varying-parts' ],
 
-            'When given object with "exercise", then ignores it'
-                => [ 'ignore-exercise' ],
-            'When given object with only unknown keys, then renders JSON in multi-line comment'
-                => [ 'only-unknown-keys' ],
-            'When given object with singleline "comments", then renders test class with comment in class DocBlock'
-                => [ 'only-singleline-comment' ],
+            // These scenarios assert on the varying part(s)
+
+            // "exercise" is tricky to test for. It never changes anything.
+            // "exercise" and "no-exercise" is therefore covered by both
+            // equalling the complete "empty-object" rendering, as this is the
+            // smallest possible literal to compare to.
+            'When given an empty object, then renders only test class stub'
+                => [ 'empty-object' ], // includes "no-exercise"
+            'When given object with only "exercise", then renders like empty object'
+                => [ 'exercise' ],
+
+            'When given object with no unknown key, then renders no multi-line comment'
+                => [ 'no-unknown-key' ],
+            'When given object with an unknown key, then renders the key as JSON in multi-line comment'
+                => [ 'one-unknown-key' ],
+            'When given object with many unknown keys, then renders all keys as JSON in multi-line comment'
+                => [ 'many-unknown-keys' ],
+
+            'When given a valid object with no "comments", then renders no comments part'
+                => [ 'no-comments' ],
+            'When given object with singleline "comments", then renders comment in class DocBlock'
+                => [ 'one-line-comments' ],
             'When given object with multiline "comments", then renders test class with comments in class DocBlock'
-                => [ 'only-multiline-comments' ],
-            'When given object with one unknown item in "cases", then renders the item into the test class stub'
+                => [ 'many-line-comments' ],
+
+            // TODO: Move these to Group tests
+            'When given a valid object with no "cases", then renders no cases'
+                => [ 'no-cases' ],
+            'When given one unknown item in "cases", then renders unknown item'
                 => [ 'one-unknown-case' ],
-            'When given object with many unknown items in "cases", then renders the items into the test class stub'
+            'When given many unknown items in "cases", then renders the items in order of input'
                 => [ 'many-unknown-cases' ],
-            'When given object with one test case in "cases", then renders the test case into the test class stub'
+            'When given one test case in "cases", then renders the test case'
                 => [ 'one-test-case' ],
-            'When given object with many test cases in "cases", then renders the test cases into the test class stub'
+            'When given many test cases in "cases", then renders the test cases in order of input'
                 => [ 'many-test-cases' ],
-            'When given object with mixed test case and unknown in "cases", then renders everything in order of input into the test class stub'
-                => [ 'mixed-up-cases' ],
+            'When given mixed test cases and unknown items in "cases", then renders everything in order of input'
+                => [ 'many-mixed-up-cases' ],
         ];
     }
 

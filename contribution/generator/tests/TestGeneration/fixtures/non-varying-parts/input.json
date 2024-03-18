@@ -1,0 +1,10 @@
+{
+    "exercise": "some-exercise-slug",
+    "comments": [
+        "One line in comments"
+    ],
+    "cases": [
+        { "some-unknown-case-item": "some value" }
+    ],
+    "some-unknown-key": "some value"
+}
