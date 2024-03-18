@@ -63,6 +63,9 @@ final class GroupTest extends PHPUnitTestCase
                 => [ 'one-test-case' ],
             'When given many test cases in list, then renders all test cases'
                 => [ 'many-test-cases' ],
+
+            'When given many mixed cases in list, then renders all cases'
+                => [ 'many-mixed-cases' ],
         ];
     }
 
@@ -101,6 +104,31 @@ final class GroupTest extends PHPUnitTestCase
         );
         $this->assertStringContainsStringBeforeString(
             'uuid: 4f99b933-367b-404b-8c6d-36d5923ee476',
+            'uuid: 91122d10-5ec7-47cb-b759-033756375869',
+            $actual,
+        );
+    }
+
+    #[Test]
+    #[TestDox('When given many mixed items in list, then renders the mixed items in order of input')]
+    public function testRenderingMixedOrder(): void
+    {
+        $subject = $this->subjectFor('many-mixed-cases');
+
+        $actual = $subject->renderPhpCode();
+
+        $this->assertStringContainsStringBeforeString(
+            '"an-unknown-item"',
+            'uuid: 31a673f2-5e54-49fe-bd79-1c1dae476c9c',
+            $actual,
+        );
+        $this->assertStringContainsStringBeforeString(
+            'uuid: 31a673f2-5e54-49fe-bd79-1c1dae476c9c',
+            '"description":"first description"',
+            $actual,
+        );
+        $this->assertStringContainsStringBeforeString(
+            '"description":"first description"',
             'uuid: 91122d10-5ec7-47cb-b759-033756375869',
             $actual,
         );
