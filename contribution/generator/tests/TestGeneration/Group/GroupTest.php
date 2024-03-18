@@ -67,8 +67,28 @@ final class GroupTest extends PHPUnitTestCase
     }
 
     #[Test]
+    #[TestDox('When given many unknown items in list, then renders the unknown items in order of input')]
+    public function testRenderingUnknownOrder(): void
+    {
+        $subject = $this->subjectFor('many-unknown-cases');
+
+        $actual = $subject->renderPhpCode();
+
+        $this->assertStringContainsStringBeforeString(
+            '"an-unknown-item"',
+            '"another-unknown-item"',
+            $actual,
+        );
+        $this->assertStringContainsStringBeforeString(
+            '"another-unknown-item"',
+            '"a-last-unknown-item"',
+            $actual,
+        );
+    }
+
+    #[Test]
     #[TestDox('When given many test cases in list, then renders the test cases in order of input')]
-    public function testRenderingOrder(): void
+    public function testRenderingTestCaseOrder(): void
     {
         $subject = $this->subjectFor('many-test-cases');
 
