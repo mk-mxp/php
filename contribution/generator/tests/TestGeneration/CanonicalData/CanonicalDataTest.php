@@ -108,19 +108,11 @@ final class CanonicalDataTest extends TestCase
             'When given object with multiline "comments", then renders test class with comments in class DocBlock'
                 => [ 'many-line-comments' ],
 
-            // TODO: Move these to Group tests
+            // Here we need to check for rendering / not rendering only
             'When given a valid object with no "cases", then renders no cases'
                 => [ 'no-cases' ],
-            'When given one unknown item in "cases", then renders unknown item'
-                => [ 'one-unknown-case' ],
-            'When given many unknown items in "cases", then renders the items in order of input'
-                => [ 'many-unknown-cases' ],
-            'When given one test case in "cases", then renders the test case'
-                => [ 'one-test-case' ],
-            'When given many test cases in "cases", then renders the test cases in order of input'
-                => [ 'many-test-cases' ],
-            'When given mixed test cases and unknown items in "cases", then renders everything in order of input'
-                => [ 'many-mixed-up-cases' ],
+            'When given a valid object with "cases", then renders cases'
+                => [ 'cases' ],
         ];
     }
 
