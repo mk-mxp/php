@@ -38,11 +38,9 @@ class Group
 
     public function renderPhpCode(): string
     {
-        $tests = \implode(self::LF, \array_map(
+        return \implode(self::LF, \array_map(
             fn ($case): string => $case->renderPhpCode(),
             $this->cases,
         ));
-
-        return empty($tests) ? '' : $tests . self::LF;
     }
 }

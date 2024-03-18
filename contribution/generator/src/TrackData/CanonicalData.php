@@ -20,7 +20,7 @@ class CanonicalData
      * @param string[] $comments
      */
     public function __construct(
-        public array $testCases = [],
+        public Group $cases,
         public array $comments = [],
         private ?object $unknown = null,
     ) {
@@ -31,22 +31,16 @@ class CanonicalData
         $comments = $rawData->comments ?? [];
         unset($rawData->comments);
 
-        $testCases = [];
-        foreach($rawData->cases ?? [] as $rawTestCase) {
-            $thisCase = TestCase::from($rawTestCase);
-            if ($thisCase === null)
-                $thisCase = Unknown::from($rawTestCase);
-            $testCases[] = $thisCase;
-        }
+        $cases = Group::from($rawData->cases ?? []);
         unset($rawData->cases);
 
         // Ignore "exercise" key (not required)
         unset($rawData->exercise);
 
         return new static(
-            testCases: $testCases,
-            comments: $comments,
-            unknown: empty(\get_object_vars($rawData)) ? null : $rawData,
+            $cases,
+            $comments,
+            empty(\get_object_vars($rawData)) ? null : $rawData,
         );
     }
 
@@ -89,11 +83,7 @@ class CanonicalData
 
     private function renderTests(): string
     {
-        $tests = \implode(self::LF, \array_map(
-            fn ($case, $count): string => $case->renderPhpCode('unknownMethod' . $count),
-            $this->testCases,
-            \array_keys($this->testCases),
-        ));
+        $tests = $this->cases->renderPhpCode();
 
         return empty($tests) ? '' : $this->indent($tests) . self::LF;
     }
