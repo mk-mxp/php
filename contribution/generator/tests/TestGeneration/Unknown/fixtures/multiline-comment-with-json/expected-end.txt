@@ -1,0 +1,5 @@
+ * {}
+ */
+function fallback_method_name()
+{
+}

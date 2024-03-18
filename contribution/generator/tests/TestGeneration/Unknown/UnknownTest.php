@@ -30,9 +30,13 @@ final class UnknownTest extends PHPUnitTestCase
     public static function renderingScenarios(): array
     {
         return [
+            // This scenario asserts on the constant parts and their position in relation to the varying part(s)
             'When given an empty object, then renders multiline comment with JSON'
+                => [ 'multiline-comment-with-json' ],
+            // These scenarios assert on the varying part(s)
+            'When given an empty object, then renders it as JSON for a multiline comment'
                 => [ 'empty-object' ],
-            'When given any object, then renders multiline comment with JSON'
+            'When given any object, then renders it as JSON for a multiline comment'
                 => [ 'any-object' ],
         ];
     }
