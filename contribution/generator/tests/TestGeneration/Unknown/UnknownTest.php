@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\TestGeneration\TestCase;
+namespace App\Tests\TestGeneration\Unknown;
 
 use App\Tests\TestGeneration\ScenarioFixture;
 use App\TrackData\Unknown;
@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-#[TestDox('Unknown (App\Tests\TestGeneration\TestCase\UnknownTest)')]
+#[TestDox('Unknown (App\Tests\TestGeneration\Unknown\UnknownTest)')]
 final class UnknownTest extends PHPUnitTestCase
 {
     use ScenarioFixture;
