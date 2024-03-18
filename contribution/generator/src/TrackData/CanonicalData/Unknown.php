@@ -19,11 +19,10 @@ class Unknown
         return new static($rawData);
     }
 
-    public function renderPhpCode(string $methodName): string
+    public function renderPhpCode(): string
     {
         return \sprintf(
             $this->template(),
-            $methodName,
             \json_encode($this->data),
         );
     }

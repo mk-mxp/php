@@ -1,7 +1,4 @@
 
 /* Unknown data:
- * %2$s
+ * %1$s
  */
-function %1$s()
-{
-}

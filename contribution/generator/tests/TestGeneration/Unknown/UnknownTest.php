@@ -22,7 +22,7 @@ final class UnknownTest extends PHPUnitTestCase
     ): void {
         $subject = $this->subjectFor($scenario);
 
-        $actual = $subject->renderPhpCode('fallback_method_name');
+        $actual = $subject->renderPhpCode();
 
         $this->assertStringContainsAllOfScenario($scenario, $actual);
     }
