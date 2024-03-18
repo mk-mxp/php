@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\TrackData;
 
-use App\TrackData\CanonicalData\TestCase;
+use App\TrackData\TestCase;
 use App\TrackData\CanonicalData\Unknown;
 
 class CanonicalData
