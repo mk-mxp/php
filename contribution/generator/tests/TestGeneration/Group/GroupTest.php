@@ -51,10 +51,14 @@ final class GroupTest extends PHPUnitTestCase
         return [
             'When given an empty list, then renders empty string'
                 => [ 'empty-list' ],
+
             'When given one unknown item in list, then renders unknown item'
                 => [ 'one-unknown-case' ],
             'When given many unknown items in list, then renders the items in order of input'
                 => [ 'many-unknown-cases' ],
+
+            'When given one test case in list, then renders the test case'
+                => [ 'one-test-case' ],
         ];
     }
 
