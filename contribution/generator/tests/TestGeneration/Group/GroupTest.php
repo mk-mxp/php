@@ -2,6 +2,7 @@
 
 namespace App\Tests\TestGeneration\Group;
 
+use App\Tests\TestGeneration\AssertStringOrder;
 use App\Tests\TestGeneration\ScenarioFixture;
 use App\TrackData\Group;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -12,6 +13,7 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 #[TestDox('Group (App\Tests\TestGeneration\Group\GroupTest)')]
 final class GroupTest extends PHPUnitTestCase
 {
+    use AssertStringOrder;
     use ScenarioFixture;
 
     #[Test]
@@ -54,12 +56,34 @@ final class GroupTest extends PHPUnitTestCase
 
             'When given one unknown item in list, then renders unknown item'
                 => [ 'one-unknown-case' ],
-            'When given many unknown items in list, then renders the items in order of input'
+            'When given many unknown items in list, then renders all items'
                 => [ 'many-unknown-cases' ],
 
             'When given one test case in list, then renders the test case'
                 => [ 'one-test-case' ],
+            'When given many test cases in list, then renders all test cases'
+                => [ 'many-test-cases' ],
         ];
+    }
+
+    #[Test]
+    #[TestDox('When given many test cases in list, then renders the test cases in order of input')]
+    public function testRenderingOrder(): void
+    {
+        $subject = $this->subjectFor('many-test-cases');
+
+        $actual = $subject->renderPhpCode();
+
+        $this->assertStringContainsStringBeforeString(
+            'uuid: 31a673f2-5e54-49fe-bd79-1c1dae476c9c',
+            'uuid: 4f99b933-367b-404b-8c6d-36d5923ee476',
+            $actual,
+        );
+        $this->assertStringContainsStringBeforeString(
+            'uuid: 4f99b933-367b-404b-8c6d-36d5923ee476',
+            'uuid: 91122d10-5ec7-47cb-b759-033756375869',
+            $actual,
+        );
     }
 
     private function subjectFor(string $scenario): ?Group
