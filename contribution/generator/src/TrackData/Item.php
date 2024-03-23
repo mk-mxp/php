@@ -9,7 +9,7 @@ interface Item
     /**
      * Produce item instance from the given data or null if not possible
      */
-    public static function from(mixed $rawData): ?static;
+    public static function from(mixed $rawData): ?Item;
 
     /**
      * Render a PHP code representation of the item and its children (if any)

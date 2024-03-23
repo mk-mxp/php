@@ -16,7 +16,7 @@ class Unknown implements Item
     ) {
     }
 
-    public static function from(mixed $rawData): ?static
+    public static function from(mixed $rawData): ?Item
     {
         return new static($rawData);
     }

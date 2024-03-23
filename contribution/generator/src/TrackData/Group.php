@@ -28,7 +28,7 @@ class Group implements Item
     ) {
     }
 
-    public static function from(mixed $rawData): ?static
+    public static function from(mixed $rawData): ?Item
     {
         if (
             ! (

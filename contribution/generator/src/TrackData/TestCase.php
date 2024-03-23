@@ -25,7 +25,7 @@ class TestCase implements Item
     ) {
     }
 
-    public static function from(mixed $rawData): ?static
+    public static function from(mixed $rawData): ?Item
     {
         $requiredProperties = [
             'uuid',

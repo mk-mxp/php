@@ -22,7 +22,7 @@ class InnerGroup implements Item
     ) {
     }
 
-    public static function from(mixed $rawData): ?static
+    public static function from(mixed $rawData): ?Item
     {
         if (!\is_array($rawData))
             return null;
