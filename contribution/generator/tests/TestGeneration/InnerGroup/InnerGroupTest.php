@@ -5,6 +5,7 @@ namespace App\Tests\TestGeneration\Group;
 use App\Tests\TestGeneration\AssertStringOrder;
 use App\Tests\TestGeneration\ScenarioFixture;
 use App\TrackData\InnerGroup;
+use App\TrackData\Item;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
@@ -15,6 +16,14 @@ final class InnerGroupTest extends PHPUnitTestCase
 {
     use AssertStringOrder;
     use ScenarioFixture;
+
+    #[Test]
+    public function implementsItemInterface(): void
+    {
+        $subject = $this->subjectFor('empty-list');
+
+        $this->assertInstanceOf(Item::class, $subject);
+    }
 
     #[Test]
     #[TestDox('When given $_dataName, then returns null')]

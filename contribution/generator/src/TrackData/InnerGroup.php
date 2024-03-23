@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\TrackData;
 
+use App\TrackData\Item;
+
 /**
  * Represents a list of 'cases'
  */
-class InnerGroup
+class InnerGroup implements Item
 {
     /**
      * PHP_EOL is CRLF on Windows, we always want LF
@@ -20,7 +22,7 @@ class InnerGroup
     ) {
     }
 
-    public static function from(mixed $rawData): ?self
+    public static function from(mixed $rawData): ?static
     {
         if (!\is_array($rawData))
             return null;
