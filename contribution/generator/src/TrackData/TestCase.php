@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\TrackData;
 
-class TestCase
+use App\TrackData\Item;
+
+class TestCase implements Item
 {
     /**
      * PHP_EOL is CRLF on Windows, we always want LF
@@ -23,7 +25,7 @@ class TestCase
     ) {
     }
 
-    public static function from(object $rawData): ?self
+    public static function from(mixed $rawData): ?static
     {
         $requiredProperties = [
             'uuid',

@@ -3,6 +3,7 @@
 namespace App\Tests\TestGeneration\TestCase;
 
 use App\Tests\TestGeneration\ScenarioFixture;
+use App\TrackData\Item;
 use App\TrackData\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -13,6 +14,14 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 final class TestCaseTest extends PHPUnitTestCase
 {
     use ScenarioFixture;
+
+    #[Test]
+    public function implementsItemInterface(): void
+    {
+        $subject = $this->subjectFor('non-varying-parts');
+
+        $this->assertInstanceOf(Item::class, $subject);
+    }
 
     #[Test]
     #[TestDox('$_dataName')]
