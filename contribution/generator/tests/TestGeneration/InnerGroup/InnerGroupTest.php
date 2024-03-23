@@ -17,7 +17,7 @@ final class InnerGroupTest extends PHPUnitTestCase
     use ScenarioFixture;
 
     #[Test]
-    #[TestDox('$_dataName')]
+    #[TestDox('When given $_dataName, then returns null')]
     #[DataProvider('nonRenderingScenarios')]
     public function testNonRenderingScenario(
         mixed $rawData,
@@ -30,9 +30,14 @@ final class InnerGroupTest extends PHPUnitTestCase
     // TODO: Use in `CanonicalData`
     public static function nonRenderingScenarios(): array
     {
+        // All possible types in JSON, but not array
         return [
-            'When given an object, then returns null'
-                => [ (object)[] ],
+            'an object' => [ (object)[] ],
+            'a bool' => [ true ],
+            'a string' => [ 'some string' ],
+            'an int' => [ 0 ],
+            'a float' => [ 0.0 ],
+            'null' => [ null ],
         ];
     }
 
