@@ -61,6 +61,9 @@ final class GroupTest extends PHPUnitTestCase
         return [
             'When given an object with empty "cases" list, then renders an empty folding section'
                 => [ 'empty-cases' ],
+            // As we use InnerGroup to render the list, one test case is enough
+            'When given an object with "cases" containing a testcase, then renders the test method into folding section'
+                => [ 'one-case-in-cases' ],
         ];
     }
 

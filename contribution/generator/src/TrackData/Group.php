@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\TrackData;
 
 /**
- * Represents a section of thematically connected 'cases'
+ * Represents a folding section of thematically connected 'cases'
  */
 class Group
 {
@@ -15,7 +15,9 @@ class Group
      */
     private const LF = "\n";
 
-    private function __construct() {
+    private function __construct(
+        private InnerGroup $cases,
+    ) {
     }
 
     public static function from(mixed $rawData): ?self
@@ -29,16 +31,29 @@ class Group
             return null;
         }
 
-        return new static();
+        return new static(InnerGroup::from($rawData->cases));
     }
 
     public function renderPhpCode(): string
     {
-        return $this->template();
+        return \sprintf(
+            $this->template(),
+            $this->renderTests(),
+        );
     }
 
+    /**
+     * %1$s Method list
+     */
     private function template(): string
     {
         return \file_get_contents(__DIR__ . '/group.txt');
+    }
+
+    private function renderTests(): string
+    {
+        $tests = $this->cases->renderPhpCode();
+
+        return empty($tests) ? '' : $tests . self::LF . self::LF;
     }
 }
