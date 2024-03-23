@@ -27,7 +27,6 @@ final class InnerGroupTest extends PHPUnitTestCase
         $this->assertNull($subject);
     }
 
-    // TODO: Use in `CanonicalData`
     public static function nonRenderingScenarios(): array
     {
         // All possible types in JSON, but not array

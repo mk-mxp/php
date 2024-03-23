@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\TrackData;
 
+use App\TrackData\InnerGroup;
 use App\TrackData\TestCase;
 use App\TrackData\Unknown;
 
@@ -16,11 +17,10 @@ class CanonicalData
     private const LF = "\n";
 
     /**
-     * @param TestCase[] $testCases
      * @param string[] $comments
      */
     public function __construct(
-        public Group $cases,
+        public InnerGroup $cases,
         public array $comments = [],
         private ?object $unknown = null,
     ) {
@@ -31,7 +31,7 @@ class CanonicalData
         $comments = $rawData->comments ?? [];
         unset($rawData->comments);
 
-        $cases = Group::from($rawData->cases ?? []);
+        $cases = InnerGroup::from($rawData->cases ?? []);
         unset($rawData->cases);
 
         // Ignore "exercise" key (not required)
