@@ -22,6 +22,7 @@ class Group
         private InnerGroup $cases,
         private string $description = '',
         private array $comments = [],
+        private ?Unknown $unknown = null,
     ) {
     }
 
@@ -36,11 +37,15 @@ class Group
             return null;
         }
 
-        return new static(
-            InnerGroup::from($rawData->cases),
-            $rawData->description ?? '',
-            $rawData->comments ?? [],
-        );
+        $cases = InnerGroup::from($rawData->cases);
+        unset($rawData->cases);
+        $description = $rawData->description ?? '';
+        unset($rawData->description);
+        $comments = $rawData->comments ?? [];
+        unset($rawData->comments);
+        $unknown = empty(\get_object_vars($rawData)) ? null : Unknown::from($rawData);
+
+        return new static($cases, $description, $comments, $unknown);
     }
 
     public function renderPhpCode(): string
@@ -49,6 +54,7 @@ class Group
             $this->template(),
             $this->renderTests(),
             $this->renderHeadingComment(),
+            $this->renderUnknown(),
         );
     }
 
@@ -80,6 +86,14 @@ class Group
         $lines = [...$lines, ...$this->comments];
 
         return empty($lines) ? '' : $this->asMultiLineComment($lines);
+    }
+
+    private function renderUnknown(): string
+    {
+        return $this->unknown === null
+            ? ''
+            : $this->unknown->renderPhpCode() . self::LF
+            ;
     }
 
     private function asMultiLineComment(array $lines): string
