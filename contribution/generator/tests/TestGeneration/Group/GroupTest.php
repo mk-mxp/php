@@ -69,6 +69,8 @@ final class GroupTest extends PHPUnitTestCase
                 => [ 'description' ],
             'When given "cases" and "comments", then renders multiline comment with comments above folding section'
                 => [ 'comments' ],
+            'When given "cases", "description" and "comments", then renders multiline comment with description and comments above folding section'
+                => [ 'description-and-comments' ],
         ];
     }
 

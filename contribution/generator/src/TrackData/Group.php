@@ -48,7 +48,7 @@ class Group
         return \sprintf(
             $this->template(),
             $this->renderTests(),
-            $this->renderComments(),
+            $this->renderHeadingComment(),
         );
     }
 
@@ -68,11 +68,14 @@ class Group
         return empty($tests) ? '' : $tests . self::LF . self::LF;
     }
 
-    private function renderComments(): string
+    private function renderHeadingComment(): string
     {
         $lines = [];
         if (!empty($this->description)) {
             $lines[] = $this->description;
+        }
+        if (!empty($this->description) && !empty($this->comments)) {
+            $lines[] = '';
         }
         $lines = [...$lines, ...$this->comments];
 
