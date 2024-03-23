@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace App\TrackData;
 
+use App\TrackData\Item;
+
 /**
  * Represents a 'cases' entry, that is not one of the known types
  */
-class Unknown
+class Unknown implements Item
 {
     private function __construct(
         private ?object $data = null,
     ) {
     }
 
-    public static function from(object $rawData): self
+    public static function from(mixed $rawData): ?static
     {
         return new static($rawData);
     }

@@ -3,6 +3,7 @@
 namespace App\Tests\TestGeneration\Unknown;
 
 use App\Tests\TestGeneration\ScenarioFixture;
+use App\TrackData\Item;
 use App\TrackData\Unknown;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -13,6 +14,12 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 final class UnknownTest extends PHPUnitTestCase
 {
     use ScenarioFixture;
+
+    #[Test]
+    public function implementsItemInterface(): void
+    {
+        $this->assertInstanceOf(Item::class, Unknown::from((object)[]));
+    }
 
     #[Test]
     #[TestDox('$_dataName')]
