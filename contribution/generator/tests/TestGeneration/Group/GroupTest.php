@@ -74,6 +74,21 @@ final class GroupTest extends PHPUnitTestCase
         ];
     }
 
+    #[Test]
+    #[TestDox('When given "cases", "description" and "comments", then renders description before comments')]
+    public function renderingOrderOfDescriptionAndComments(): void
+    {
+        $subject = $this->subjectFor('description-and-comments');
+
+        $actual = $subject->renderPhpCode();
+
+        $this->assertStringContainsStringBeforeString(
+            'some title for this group of tests',
+            'Some comments',
+            $actual,
+        );
+    }
+
     private function subjectFor(string $scenario): ?Group
     {
         return Group::from($this->rawDataFor($scenario));
