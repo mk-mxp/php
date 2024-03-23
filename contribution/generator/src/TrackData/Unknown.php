@@ -7,7 +7,7 @@ namespace App\TrackData;
 use App\TrackData\Item;
 
 /**
- * Represents a 'cases' entry, that is not one of the known types
+ * Represents an Item, that is not one of the known other types
  */
 class Unknown implements Item
 {

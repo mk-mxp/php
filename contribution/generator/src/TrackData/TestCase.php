@@ -6,6 +6,9 @@ namespace App\TrackData;
 
 use App\TrackData\Item;
 
+/**
+ * Represents an Item, that is testing something with property(input) === expected
+ */
 class TestCase implements Item
 {
     /**

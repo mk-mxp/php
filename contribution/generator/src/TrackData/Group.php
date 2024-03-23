@@ -7,7 +7,7 @@ namespace App\TrackData;
 use App\TrackData\Item;
 
 /**
- * Represents a folding section of thematically connected 'cases'
+ * Represents a folding section of thematically connected Items
  */
 class Group implements Item
 {

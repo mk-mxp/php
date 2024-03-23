@@ -7,7 +7,7 @@ namespace App\TrackData;
 use App\TrackData\Item;
 
 /**
- * Represents a list of 'cases'
+ * Represents a list of Items
  */
 class InnerGroup implements Item
 {
