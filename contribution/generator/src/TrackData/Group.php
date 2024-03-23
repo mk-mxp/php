@@ -20,14 +20,25 @@ class Group
 
     public static function from(mixed $rawData): ?self
     {
-        if (!\is_object($rawData))
+        if (
+            ! (
+                \is_object($rawData)
+                && isset($rawData->cases)
+            )
+        ) {
             return null;
+        }
 
         return new static();
     }
 
     public function renderPhpCode(): string
     {
-        return '';
+        return $this->template();
+    }
+
+    private function template(): string
+    {
+        return \file_get_contents(__DIR__ . '/group.txt');
     }
 }

@@ -30,6 +30,7 @@ final class GroupTest extends PHPUnitTestCase
     public static function nonRenderingScenarios(): array
     {
         // All possible types in JSON, but not object
+        // Any object without "cases"
         return [
             'an array' => [ [] ],
             'a bool' => [ true ],
@@ -37,6 +38,29 @@ final class GroupTest extends PHPUnitTestCase
             'an int' => [ 0 ],
             'a float' => [ 0.0 ],
             'null' => [ null ],
+            'an empty object' => [ (object)[] ],
+            'an object without "cases"' => [ (object)['some-property' => 'is not cases'] ],
+        ];
+    }
+
+    #[Test]
+    #[TestDox('$_dataName')]
+    #[DataProvider('renderingScenarios')]
+    public function testRenderingScenario(
+        string $scenario,
+    ): void {
+        $subject = $this->subjectFor($scenario);
+
+        $actual = $subject->renderPhpCode();
+
+        $this->assertStringContainsAllOfScenario($scenario, $actual);
+    }
+
+    public static function renderingScenarios(): array
+    {
+        return [
+            'When given an object with empty "cases" list, then renders an empty folding section'
+                => [ 'empty-cases' ],
         ];
     }
 
