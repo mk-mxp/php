@@ -65,8 +65,10 @@ final class GroupTest extends PHPUnitTestCase
             'When given an object with "cases" containing a testcase, then renders the cases list into folding section'
                 => [ 'one-case-in-cases' ],
 
-            'When given "cases" and "description", then renders multiline comment with description above cases list into folding section'
+            'When given "cases" and "description", then renders multiline comment with description above folding section'
                 => [ 'description' ],
+            'When given "cases" and "comments", then renders multiline comment with comments above folding section'
+                => [ 'comments' ],
         ];
     }
 

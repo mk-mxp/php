@@ -15,9 +15,13 @@ class Group
      */
     private const LF = "\n";
 
+    /**
+     * @param string[] $comments
+     */
     private function __construct(
         private InnerGroup $cases,
-        private string $description,
+        private string $description = '',
+        private array $comments = [],
     ) {
     }
 
@@ -35,6 +39,7 @@ class Group
         return new static(
             InnerGroup::from($rawData->cases),
             $rawData->description ?? '',
+            $rawData->comments ?? [],
         );
     }
 
@@ -65,9 +70,13 @@ class Group
 
     private function renderComments(): string
     {
-        return empty($this->description) ? '' : $this->asMultiLineComment(
-            [$this->description]
-        );
+        $lines = [];
+        if (!empty($this->description)) {
+            $lines[] = $this->description;
+        }
+        $lines = [...$lines, ...$this->comments];
+
+        return empty($lines) ? '' : $this->asMultiLineComment($lines);
     }
 
     private function asMultiLineComment(array $lines): string
