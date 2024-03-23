@@ -20,9 +20,9 @@ final class InnerGroupTest extends PHPUnitTestCase
     #[TestDox('$_dataName')]
     #[DataProvider('nonRenderingScenarios')]
     public function testNonRenderingScenario(
-        string $scenario,
+        mixed $rawData,
     ): void {
-        $subject = $this->subjectFor($scenario);
+        $subject = InnerGroup::from($rawData);
 
         $this->assertNull($subject);
     }
@@ -32,7 +32,7 @@ final class InnerGroupTest extends PHPUnitTestCase
     {
         return [
             'When given an object, then returns null'
-                => [ 'object' ],
+                => [ (object)[] ],
         ];
     }
 
