@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\TrackData;
 
+use App\TrackData\Item;
+
 /**
  * Represents a folding section of thematically connected 'cases'
  */
-class Group
+class Group implements Item
 {
     /**
      * PHP_EOL is CRLF on Windows, we always want LF
@@ -26,7 +28,7 @@ class Group
     ) {
     }
 
-    public static function from(mixed $rawData): ?self
+    public static function from(mixed $rawData): ?static
     {
         if (
             ! (
