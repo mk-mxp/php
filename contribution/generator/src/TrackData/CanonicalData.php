@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\TrackData;
 
 use App\TrackData\InnerGroup;
-use App\TrackData\TestCase;
-use App\TrackData\Unknown;
 
 class CanonicalData
 {
