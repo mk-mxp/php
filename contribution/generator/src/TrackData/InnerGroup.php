@@ -25,15 +25,17 @@ class InnerGroup
         if (!\is_array($rawData))
             return null;
 
-        $testCases = [];
+        $cases = [];
         foreach($rawData as $rawCase) {
-            $thisCase = TestCase::from($rawCase);
-            if ($thisCase === null)
-                $thisCase = Unknown::from($rawCase);
-            $testCases[] = $thisCase;
+            $case = TestCase::from($rawCase);
+            if ($case === null)
+                $case = Group::from($rawCase);
+            if ($case === null)
+                $case = Unknown::from($rawCase);
+            $cases[] = $case;
         }
 
-        return new static($testCases);
+        return new static($cases);
     }
 
     public function renderPhpCode(): string

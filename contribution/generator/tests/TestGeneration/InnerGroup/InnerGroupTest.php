@@ -69,6 +69,9 @@ final class InnerGroupTest extends PHPUnitTestCase
             'When given many test cases in list, then renders all test cases'
                 => [ 'many-test-cases' ],
 
+            'When given one group in list, then renders the group'
+                => [ 'one-group' ],
+
             'When given many mixed cases in list, then renders all cases'
                 => [ 'many-mixed-cases' ],
         ];
@@ -129,11 +132,21 @@ final class InnerGroupTest extends PHPUnitTestCase
         );
         $this->assertStringContainsStringBeforeString(
             'uuid: 31a673f2-5e54-49fe-bd79-1c1dae476c9c',
-            '"description":"first description"',
+            'section title',
             $actual,
         );
         $this->assertStringContainsStringBeforeString(
-            '"description":"first description"',
+            'section title',
+            'uuid: 4f99b933-367b-404b-8c6d-36d5923ee476',
+            $actual,
+        );
+        $this->assertStringContainsStringBeforeString(
+            'uuid: 4f99b933-367b-404b-8c6d-36d5923ee476',
+            '"also-unknown"',
+            $actual,
+        );
+        $this->assertStringContainsStringBeforeString(
+            '"also-unknown"',
             'uuid: 91122d10-5ec7-47cb-b759-033756375869',
             $actual,
         );
