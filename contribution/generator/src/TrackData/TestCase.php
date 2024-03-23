@@ -15,12 +15,12 @@ class TestCase implements Item
     private const LF = "\n";
 
     public function __construct(
-        public string $uuid,
-        public string $description,
-        public string $property,
-        public object $input,
-        public mixed $expected,
-        public array $comments = [],
+        private string $uuid,
+        private string $description,
+        private string $property,
+        private object $input,
+        private mixed $expected,
+        private array $comments = [],
         private ?object $unknown = null,
     ) {
     }

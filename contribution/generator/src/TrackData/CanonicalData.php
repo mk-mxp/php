@@ -18,8 +18,8 @@ class CanonicalData
      * @param string[] $comments
      */
     public function __construct(
-        public InnerGroup $cases,
-        public array $comments = [],
+        private InnerGroup $cases,
+        private array $comments = [],
         private ?object $unknown = null,
     ) {
     }
