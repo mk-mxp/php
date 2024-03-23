@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\TrackData;
 
 /**
- * Represents a list of 'cases'
+ * Represents a section of thematically connected 'cases'
  */
 class Group
 {
@@ -15,32 +15,19 @@ class Group
      */
     private const LF = "\n";
 
-    private function __construct(
-        private array $cases,
-    ) {
+    private function __construct() {
     }
 
     public static function from(mixed $rawData): ?self
     {
-        if (!\is_array($rawData))
+        if (!\is_object($rawData))
             return null;
 
-        $testCases = [];
-        foreach($rawData as $rawCase) {
-            $thisCase = TestCase::from($rawCase);
-            if ($thisCase === null)
-                $thisCase = Unknown::from($rawCase);
-            $testCases[] = $thisCase;
-        }
-
-        return new static($testCases);
+        return new static();
     }
 
     public function renderPhpCode(): string
     {
-        return \implode(self::LF, \array_map(
-            fn ($case): string => $case->renderPhpCode(),
-            $this->cases,
-        ));
+        return '';
     }
 }
