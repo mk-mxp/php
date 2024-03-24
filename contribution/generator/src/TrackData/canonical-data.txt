@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class %4$s extends TestCase
 {
-    private SomeSolutionClass $subject;
+    private %6$s $subject;
     
     public static function setUpBeforeClass(): void
     {
