@@ -6,7 +6,7 @@
  */
 public function %1$s(): void
 {
-    $this->markTestSkipped('This test has not been implemented yet.');
+    $this->markTestSkipped('This test has not been verified yet.');
     
     $input = %3$s;
     $expected = %4$s;

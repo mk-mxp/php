@@ -1,5 +1,5 @@
 public function someDescription(): void
 {
-    $this->markTestSkipped('This test has not been implemented yet.');
+    $this->markTestSkipped('This test has not been verified yet.');
     
     $input = array (

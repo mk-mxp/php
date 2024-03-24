@@ -69,7 +69,7 @@ final class TestCaseTest extends PHPUnitTestCase
     {
         return [
             // This scenario asserts on the constant parts and their position in relation to the varying part(s)
-            'When given a valid object and an unknown one, then renders all non-varying parts where they belong'
+            'When given a valid object and an unknown key, then renders all non-varying parts where they belong'
                 => [ 'non-varying-parts' ],
             // These scenarios assert on the varying part(s)
             'When given a valid object, then renders uuid'
