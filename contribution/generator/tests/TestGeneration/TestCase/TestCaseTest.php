@@ -2,6 +2,7 @@
 
 namespace App\Tests\TestGeneration\TestCase;
 
+use App\Tests\TestGeneration\AssertStringOrder;
 use App\Tests\TestGeneration\ScenarioFixture;
 use App\TrackData\Item;
 use App\TrackData\TestCase;
@@ -13,6 +14,7 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 #[TestDox('Test Case (App\Tests\TestGeneration\TestCase\TestCaseTest)')]
 final class TestCaseTest extends PHPUnitTestCase
 {
+    use AssertStringOrder;
     use ScenarioFixture;
 
     #[Test]
@@ -80,8 +82,12 @@ final class TestCaseTest extends PHPUnitTestCase
                 => [ 'description-with-problematic-chars' ],
             'When given a valid object, then renders input object as PHP literal value'
                 => [ 'input' ],
-            'When given a valid object with no "error" in "expected", then renders expected as PHP literal value and asserts on it'
+            'When given no "error" in "expected", then renders "expected" as PHP literal value and asserts on it'
                 => [ 'expect-returned-value' ],
+            'When given "error" in "expected", then renders assertion on expected Exception'
+                => [ 'expect-exception-thrown' ],
+            'When given a different message in "error", then renders that message'
+                => [ 'expect-different-exception-message' ],
             'When given a valid object, then renders property as method call on subject'
                 => [ 'property' ],
             'When given a valid object and an unknown key, then renders unknown key as JSON'
@@ -89,6 +95,21 @@ final class TestCaseTest extends PHPUnitTestCase
             'When given a valid object and no unknown key, then renders no JSON'
                 => [ 'no-unknown' ],
         ];
+    }
+
+    #[Test]
+    #[TestDox('When given "error" in "expected", then renders the exception expectation before the invocation')]
+    public function renderingExceptionExpectationOrder(): void
+    {
+        $subject = $this->subjectFor('expect-exception-thrown');
+
+        $actual = $subject->renderPhpCode();
+
+        $this->assertStringContainsStringBeforeString(
+            '$this->expectException',
+            '$this->subject->',
+            $actual,
+        );
     }
 
     private function subjectFor(string $scenario): ?TestCase

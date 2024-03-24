@@ -60,10 +60,26 @@ class TestCase implements Item
             $this->testMethodName(),
             $this->renderUnknownData(),
             $this->indentTrailingLines(\var_export((array)$this->input, true)),
-            $this->indentTrailingLines(\var_export($this->expected, true)),
+            $this->invocationReturnsValue()
+                ? $this->renderAssignExpected()
+                : $this->renderAssertionOnException()
+                ,
             $this->uuid,
             \ucfirst($this->description),
             $this->property,
+            $this->invocationReturnsValue()
+                ? $this->renderAssertionOnExpected()
+                : ''
+                ,
+        );
+    }
+
+    private function invocationReturnsValue(): bool
+    {
+        return !(
+            \is_object($this->expected)
+            && isset($this->expected->error)
+            && gettype($this->expected->error) === 'string'
         );
     }
 
@@ -71,10 +87,11 @@ class TestCase implements Item
      * %1$s Method name
      * %2$s Unknow data
      * %3$s Input data
-     * %4$s Expected data
+     * %4$s Expected data or exception
      * %5$s UUID
-     * %6$s testdox
-     * %7$s property (method to call)
+     * %6$s Testdox
+     * %7$s Property (method to call)
+     * %8$s Assertion on expected
      */
     private function template(): string
     {
@@ -103,6 +120,29 @@ class TestCase implements Item
             . ' * ' . self::LF
             . ' * '
             ;
+    }
+
+    private function renderAssignExpected(): string
+    {
+        return $this->indentTrailingLines('$expected = ' . \var_export($this->expected, true));
+    }
+
+    private function renderAssertionOnExpected(): string
+    {
+        return
+            '    ' . self::LF
+            . '    $this->assertSame($expected, $actual);' . self::LF
+            ;
+    }
+
+    private function renderAssertionOnException(): string
+    {
+        return $this->indentTrailingLines(
+            '$this->expectException(\Exception::class);' . self::LF
+            . '$this->expectExceptionMessage(\''
+            . $this->expected->error
+            . '\')'
+        );
     }
 
     private function indentTrailingLines(string $lines): string
