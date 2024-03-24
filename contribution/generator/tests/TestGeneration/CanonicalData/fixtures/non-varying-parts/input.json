@@ -4,7 +4,10 @@
         "One line in comments"
     ],
     "cases": [
-        { "some-unknown-case-item": "some value" }
+        {
+            "cases": [],
+            "description": "subgroup has unindented folding marks"
+        }
     ],
     "some-unknown-key": "some value"
 }

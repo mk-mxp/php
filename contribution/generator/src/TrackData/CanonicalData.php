@@ -107,7 +107,23 @@ class CanonicalData
 
     private function indent(string $lines): string
     {
+        $toUnindent = [
+            '    // {{{',
+            '    // }}}',
+        ];
+        $unindented = [
+            '// {{{',
+            '// }}}',
+        ];
+
         $indent = '    ';
-        return $indent . \implode(self::LF . $indent, \explode(self::LF, $lines));
+        $indentedLines =
+            $indent
+            . \implode(self::LF . $indent, \explode(self::LF, $lines))
+            ;
+
+        $indentedLines = \str_replace($toUnindent, $unindented, $indentedLines);
+
+        return $indentedLines;
     }
 }
