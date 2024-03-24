@@ -80,8 +80,8 @@ final class TestCaseTest extends PHPUnitTestCase
                 => [ 'description-with-problematic-chars' ],
             'When given a valid object, then renders input object as PHP literal value'
                 => [ 'input' ],
-            'When given a valid object, then renders expected as PHP literal value'
-                => [ 'expected' ],
+            'When given a valid object with no "error" in "expected", then renders expected as PHP literal value and asserts on it'
+                => [ 'expect-returned-value' ],
             'When given a valid object, then renders property as method call on subject'
                 => [ 'property' ],
             'When given a valid object and an unknown key, then renders unknown key as JSON'
