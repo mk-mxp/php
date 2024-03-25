@@ -12,7 +12,7 @@ use App\TrackData\Item;
 class Unknown implements Item
 {
     private function __construct(
-        private ?object $data = null,
+        private mixed $data = null,
     ) {
     }
 

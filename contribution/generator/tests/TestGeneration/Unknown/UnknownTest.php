@@ -45,6 +45,18 @@ final class UnknownTest extends PHPUnitTestCase
                 => [ 'empty-object' ],
             'When given any object, then renders it as JSON for a multiline comment'
                 => [ 'any-object' ],
+            'When given an array, then renders it as JSON for a multiline comment'
+                => [ 'array' ],
+            'When given a bool, then renders it as JSON for a multiline comment'
+                => [ 'bool' ],
+            'When given a string, then renders it as JSON for a multiline comment'
+                => [ 'string' ],
+            'When given an int, then renders it as JSON for a multiline comment'
+                => [ 'int' ],
+            'When given a float, then renders it as JSON for a multiline comment'
+                => [ 'float' ],
+            'When given null, then renders it as JSON for a multiline comment'
+                => [ 'null' ],
         ];
     }
 
