@@ -27,17 +27,12 @@ class InnerGroup implements Item
         if (!\is_array($rawData))
             return null;
 
-        $cases = [];
-        foreach($rawData as $rawCase) {
-            $case = TestCase::from($rawCase);
-            if ($case === null)
-                $case = Group::from($rawCase);
-            if ($case === null)
-                $case = Unknown::from($rawCase);
-            $cases[] = $case;
-        }
+        $itemFactory = new ItemFactory();
 
-        return new static($cases);
+        return new static(\array_map(
+            fn ($rawCase): Item => $itemFactory->from($rawCase),
+            $rawData,
+        ));
     }
 
     public function renderPhpCode(): string

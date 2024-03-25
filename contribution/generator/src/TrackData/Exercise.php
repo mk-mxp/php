@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\TrackData;
 
+use App\TrackData\ItemFactory;
+
 interface Exercise
 {
     /**
@@ -11,6 +13,7 @@ interface Exercise
      */
     public function __construct(
         string $trackRoot,
+        ItemFactory $itemFactory,
     );
 
     /**
