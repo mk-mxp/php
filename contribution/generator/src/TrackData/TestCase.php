@@ -30,6 +30,9 @@ class TestCase implements Item
 
     public static function from(mixed $rawData): ?Item
     {
+        if (!\is_object($rawData))
+            return null;
+
         $requiredProperties = [
             'uuid',
             'description',

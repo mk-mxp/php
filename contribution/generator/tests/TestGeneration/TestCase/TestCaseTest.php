@@ -39,6 +39,8 @@ final class TestCaseTest extends PHPUnitTestCase
     public static function nonRenderingScenarios(): array
     {
         return [
+            'When given no object, then returns null'
+                => [ 'no-object' ],
             'When given an empty object, then returns null'
                 => [ 'empty-object' ],
             'When given object without "uuid", then returns null'
