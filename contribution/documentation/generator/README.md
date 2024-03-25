@@ -106,10 +106,6 @@ Templates also don't require special knowledge about the AST library used.
 Simply edit the template using IDEs and other tools like any other file.
 For our purpose of producing code, that **should be** verified and corrected by humans, templates are the best solution.
 
-- TODO: Extract `ItemFactory` from production code (`ItemFactory::from(): Item`)
-- TODO: Inject `ItemFactory` into Practice Exercise to mock it for testing
-- TODO: Extract common rendering pieces to trait(s)
-
 [exercism-problem-specifications]: https://github.com/exercism/problem-specifications/
 
 ## Contribution
