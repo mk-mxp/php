@@ -30,6 +30,7 @@ trait AssertStringOrder
             );
         }
         // Count the above conditional as assertion
+        // Using this assertion directly results in misleading failure message
         $this->assertTrue(true);
     }
 }
