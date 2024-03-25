@@ -5,6 +5,7 @@ namespace App\Tests\TestGeneration\Group;
 use App\Tests\TestGeneration\ScenarioFixture;
 use App\TrackData\CanonicalData;
 use App\TrackData\Group;
+use App\TrackData\InnerGroup;
 use App\TrackData\ItemFactory;
 use App\TrackData\Item;
 use App\TrackData\Unknown;
@@ -45,6 +46,10 @@ final class ItemFactoryTest extends PHPUnitTestCase
                 => [ 'group-object-minimal', Group::class ],
             'When given a maximal valid group object, then produces Group'
                 => [ 'group-object-maximal', Group::class ],
+            'When given an empty array, then produces InnerGroup'
+                => [ 'empty-array', InnerGroup::class ],
+            'When given a non-empty array, then produces InnerGroup'
+                => [ 'non-empty-array', InnerGroup::class ],
             'When given an empty object, then produces Unknown'
                 => [ 'empty-object', Unknown::class ],
         ];

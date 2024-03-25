@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\TrackData;
 
 use App\TrackData\CanonicalData;
+use App\TrackData\InnerGroup;
 use App\TrackData\Item;
 use App\TrackData\Unknown;
 
@@ -19,6 +20,8 @@ class ItemFactory
         // $case = TestCase::from($rawData);
         if ($case === null)
             $case = Group::from($rawData);
+        if ($case === null)
+            $case = InnerGroup::from($rawData);
         if ($case === null)
             $case = Unknown::from($rawData);
         return $case;
