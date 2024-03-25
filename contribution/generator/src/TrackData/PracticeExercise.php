@@ -21,6 +21,7 @@ class PracticeExercise implements Exercise
     private string $exerciseSlug = '';
     private string $pathToExercise = '';
 
+    // TODO: 09 - Inject `ItemFactory` to make it mockable
     public function __construct(private string $trackRoot) {}
 
     #[Required]
@@ -50,12 +51,14 @@ class PracticeExercise implements Exercise
     {
         $this->ensurePracticeExerciseCanBeUsed();
 
-        return CanonicalData::from($this->loadCanonicalData())
-        ->renderPhpCode(
-            $this->classNameFrom($this->testFileName()),
-            $this->solutionFileName(),
-            $this->classNameFrom($this->solutionFileName()),
-        );
+        // TODO: 10 - Use `$this->itemFactory->from()`
+        // This returns an object derived from stdClass, so adding keys is safe
+        $rawData = $this->loadCanonicalData();
+        $rawData->testClassName = $this->classNameFrom($this->testFileName());
+        $rawData->solutionFileName = $this->solutionFileName();
+        $rawData->solutionClassName = $this->classNameFrom($this->solutionFileName());
+
+        return CanonicalData::from($rawData)->renderPhpCode();
     }
 
     public function pathToSolutionFile(): string

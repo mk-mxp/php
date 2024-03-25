@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\TrackData;
 
 use App\TrackData\InnerGroup;
+use App\TrackData\Item;
 
-class CanonicalData
+class CanonicalData implements Item
 {
     /**
      * PHP_EOL is CRLF on Windows, we always want LF
@@ -18,44 +19,65 @@ class CanonicalData
      * @param string[] $comments
      */
     public function __construct(
+        private string $testClassName,
+        private string $solutionFileName,
+        private string $solutionClassName,
         private InnerGroup $cases,
         private array $comments = [],
         private ?object $unknown = null,
     ) {
     }
 
-    public static function from(object $rawData): self
+    public static function from(mixed $rawData): ?static
     {
+        if (!\is_object($rawData))
+            return null;
+
+        $requiredProperties = [
+            'testClassName',
+            'solutionFileName',
+            'solutionClassName',
+        ];
+        $actualProperties = \array_keys(\get_object_vars($rawData));
+        $requiredData = [];
+        foreach ($requiredProperties as $requiredProperty) {
+            if (!(
+                \in_array($requiredProperty, $actualProperties)
+                && \is_string($rawData->{$requiredProperty})
+            )) {
+                return null;
+            }
+            $requiredData[$requiredProperty] = $rawData->{$requiredProperty};
+            unset($rawData->{$requiredProperty});
+        }
+
         $comments = $rawData->comments ?? [];
         unset($rawData->comments);
-
-        $cases = InnerGroup::from($rawData->cases ?? []);
-        unset($rawData->cases);
 
         // Ignore "exercise" key (not required)
         unset($rawData->exercise);
 
+        $cases = InnerGroup::from($rawData->cases ?? []);
+        unset($rawData->cases);
+
         return new static(
-            $cases,
-            $comments,
-            empty(\get_object_vars($rawData)) ? null : $rawData,
+            ...$requiredData,
+            cases: $cases,
+            comments: $comments,
+            unknown: empty(\get_object_vars($rawData)) ? null : $rawData,
         );
     }
 
-    public function renderPhpCode(
-        string $testClassName,
-        string $solutionFileName,
-        string $solutionClassName,
-    ): string
+    public function renderPhpCode(): string
     {
         return \sprintf(
             $this->template(),
             $this->renderUnknownData(),
             $this->renderTests(),
             $this->renderComments(),
-            $testClassName,
-            $solutionFileName,
-            $solutionClassName,
+            $this->testClassName,
+            $this->solutionFileName,
+            $this->solutionClassName,
         );
     }
 

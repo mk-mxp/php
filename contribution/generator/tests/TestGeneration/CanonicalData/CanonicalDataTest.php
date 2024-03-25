@@ -4,59 +4,54 @@ namespace App\Tests\TestGeneration\CanonicalData;
 
 use App\Tests\TestGeneration\ScenarioFixture;
 use App\TrackData\CanonicalData;
+use App\TrackData\Item;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * The problem specification has no `testClassName`, `solutionFileName`,
+ * `solutionClassName` fields, these are added by the exercise to unify the
+ * interface to `Item`. This way, `ItemFactory` can produce a `CanonicalData`
+ * item, too.
+ */
 #[TestDox('Canonical Data (App\Tests\TestGeneration\CanonicalData\CanonicalDataTest)')]
 final class CanonicalDataTest extends TestCase
 {
     use ScenarioFixture;
 
     #[Test]
-    #[TestDox('When given a different test class name, then renders that test class name into stub')]
-    public function rendersTestClassName(): void {
-        $scenario = 'different-test-class-name';
-        $subject = $this->subjectFor($scenario);
+    public function implementsItemInterface(): void
+    {
+        $subject = $this->subjectFor('non-varying-parts');
 
-        $actual = $subject->renderPhpCode(
-            'DifferentTestClassName',
-            'SomeSolutionFile.ext',
-            'SomeSolutionClass',
-        );
-
-        $this->assertStringContainsAllOfScenario($scenario, $actual);
+        $this->assertInstanceOf(Item::class, $subject);
     }
 
     #[Test]
-    #[TestDox('When given a different solution file name, then renders that file name into stub')]
-    public function rendersSolutionFileName(): void {
-        $scenario = 'different-solution-file-name';
+    #[TestDox('$_dataName')]
+    #[DataProvider('nonRenderingScenarios')]
+    public function testNonRenderingScenario(
+        string $scenario,
+    ): void {
         $subject = $this->subjectFor($scenario);
 
-        $actual = $subject->renderPhpCode(
-            'SomeTestClass',
-            'DifferentSolutionFile.php',
-            'SomeSolutionClass',
-        );
-
-        $this->assertStringContainsAllOfScenario($scenario, $actual);
+        $this->assertNull($subject);
     }
 
-    #[Test]
-    #[TestDox('When given a different solution class name, then renders that class name into stub')]
-    public function rendersSolutionClassName(): void {
-        $scenario = 'different-solution-class-name';
-        $subject = $this->subjectFor($scenario);
-
-        $actual = $subject->renderPhpCode(
-            'SomeTestClass',
-            'SomeSolutionFile.ext',
-            'DifferentSolutionClassName',
-        );
-
-        $this->assertStringContainsAllOfScenario($scenario, $actual);
+    public static function nonRenderingScenarios(): array
+    {
+        return [
+            'When given no object, then returns null'
+                => [ 'no-object' ],
+            'When given object without "testClassName", then returns null'
+                => [ 'no-test-class-name' ],
+            'When given object without "solutionFileName", then returns null'
+                => [ 'no-solution-file-name' ],
+            'When given object without "solutionClassName", then returns null'
+                => [ 'no-solution-class-name' ],
+        ];
     }
 
     #[Test]
@@ -67,11 +62,7 @@ final class CanonicalDataTest extends TestCase
     ): void {
         $subject = $this->subjectFor($scenario);
 
-        $actual = $subject->renderPhpCode(
-            'SomeTestClass',
-            'SomeSolutionFile.ext',
-            'SomeSolutionClass',
-        );
+        $actual = $subject->renderPhpCode();
 
         $this->assertStringContainsAllOfScenario($scenario, $actual);
     }
@@ -85,13 +76,17 @@ final class CanonicalDataTest extends TestCase
 
             // These scenarios assert on the varying part(s)
 
-            // "exercise" is tricky to test for. It never changes anything.
-            // "exercise" and "no-exercise" is therefore covered by both
-            // equalling the complete "empty-object" rendering, as this is the
-            // smallest possible literal to compare to.
-            'When given an empty object, then renders only test class stub'
-                => [ 'empty-object' ], // includes "no-exercise"
-            'When given object with only "exercise", then renders like empty object'
+            'When given a test class name, then renders that test class name into stub'
+                => [ 'test-class-name' ],
+            'When given a solution file name, then renders that file name into stub'
+                => [ 'solution-file-name'],
+            'When given a solution class name, then renders that class name into stub'
+                => [ 'solution-class-name' ],
+
+            // "exercise" is ignored
+            'When given object with no "exercise", then renders only test class stub'
+                => [ 'no-exercise' ],
+            'When given object with "exercise", then renders only test class stub'
                 => [ 'exercise' ],
 
             'When given object with no unknown key, then renders no multi-line comment'
@@ -116,7 +111,7 @@ final class CanonicalDataTest extends TestCase
         ];
     }
 
-    private function subjectFor(string $scenario): CanonicalData
+    private function subjectFor(string $scenario): ?CanonicalData
     {
         return CanonicalData::from($this->rawDataFor($scenario));
     }
