@@ -4,6 +4,7 @@ namespace App\Tests\TestGeneration\Group;
 
 use App\Tests\TestGeneration\ScenarioFixture;
 use App\TrackData\CanonicalData;
+use App\TrackData\Group;
 use App\TrackData\ItemFactory;
 use App\TrackData\Item;
 use App\TrackData\Unknown;
@@ -40,6 +41,10 @@ final class ItemFactoryTest extends PHPUnitTestCase
                 => [ 'canonical-data-object-minimal', CanonicalData::class ],
             'When given a maximal valid canonical data object, then produces CanonicalData'
                 => [ 'canonical-data-object-maximal', CanonicalData::class ],
+            'When given a minimal valid group object, then produces Group'
+                => [ 'group-object-minimal', Group::class ],
+            'When given a maximal valid group object, then produces Group'
+                => [ 'group-object-maximal', Group::class ],
             'When given an empty object, then produces Unknown'
                 => [ 'empty-object', Unknown::class ],
         ];

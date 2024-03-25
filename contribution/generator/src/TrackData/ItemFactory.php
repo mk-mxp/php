@@ -17,8 +17,8 @@ class ItemFactory
     {
         $case = CanonicalData::from($rawData);
         // $case = TestCase::from($rawData);
-        // if ($case === null)
-        //     $case = Group::from($rawData);
+        if ($case === null)
+            $case = Group::from($rawData);
         if ($case === null)
             $case = Unknown::from($rawData);
         return $case;
