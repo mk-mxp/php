@@ -8,6 +8,7 @@ use App\TrackData\Group;
 use App\TrackData\InnerGroup;
 use App\TrackData\ItemFactory;
 use App\TrackData\Item;
+use App\TrackData\TestCase;
 use App\TrackData\Unknown;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -50,6 +51,10 @@ final class ItemFactoryTest extends PHPUnitTestCase
                 => [ 'empty-array', InnerGroup::class ],
             'When given a non-empty array, then produces InnerGroup'
                 => [ 'non-empty-array', InnerGroup::class ],
+            'When given a minimal valid test case object, then produces TestCase'
+                => [ 'test-case-object-minimal', TestCase::class ],
+            'When given a maximal valid test case object, then produces TestCase'
+                => [ 'test-case-object-maximal', TestCase::class ],
             'When given an empty object, then produces Unknown'
                 => [ 'empty-object', Unknown::class ],
         ];

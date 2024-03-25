@@ -16,8 +16,11 @@ class ItemFactory
 {
     public function from(mixed $rawData): Item
     {
-        $case = CanonicalData::from($rawData);
-        // $case = TestCase::from($rawData);
+        $case = TestCase::from($rawData);
+        if ($case === null)
+            // Despite being rare, CanonicalData must be before Group.
+            // Otherwise Group handles the CanonicalData with many unknown keys.
+            $case = CanonicalData::from($rawData);
         if ($case === null)
             $case = Group::from($rawData);
         if ($case === null)
