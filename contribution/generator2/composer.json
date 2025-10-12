@@ -64,14 +64,14 @@
         "launch:code-coverage": [
             "php -S 0.0.0.0:8080 -t build/code-coverage/"
         ],
-        "phpstan": "phpstan analyse src tests --configuration phpstan.neon --memory-limit=2G",
+        "phpstan": "phpstan --memory-limit=2G",
         "test": "XDEBUG_MODE=coverage phpunit",
         "lint": "phpcs",
         "lint:fix": "phpcbf",
         "ci": [
             "@test",
             "@lint",
-            "phpstan"
+            "@phpstan"
         ]
     },
     "conflict": {
