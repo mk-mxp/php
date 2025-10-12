@@ -24,7 +24,7 @@ trait ScenarioFixture
         string $scenario,
         string $actual,
         string $message = '',
-    ):void {
+    ): void {
         $this->assertJson($actual, $message);
 
         $file = $this->pathToScenarioFixtures($scenario) . '/output.json';

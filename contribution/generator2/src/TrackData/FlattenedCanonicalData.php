@@ -14,12 +14,14 @@ class FlattenedCanonicalData
         public string $exercise = '',
         public array $comments = [],
         public object|null $unknown = null,
-    ) {}
+    ) {
+    }
 
     public static function from(mixed $rawData): ?static
     {
-        if (!\is_object($rawData))
+        if (!\is_object($rawData)) {
             return null;
+        }
 
         $requiredProperties = [
             'testClassName',
