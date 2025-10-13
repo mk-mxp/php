@@ -20,6 +20,7 @@ final class FlattenedCanonicalDataTest extends TestCase
 {
     use ScenarioFixture;
 
+    /** @param class-string<\Throwable> $expectedException */
     #[Test]
     #[TestDox('$_dataName')]
     #[DataProvider('unhappyScenarios')]
