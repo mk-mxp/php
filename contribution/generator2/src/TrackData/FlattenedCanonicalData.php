@@ -21,7 +21,15 @@ final class FlattenedCanonicalData
                 $this->testClassName = $value;
             }
         },
-        public string $solutionFileName,
+        public string $solutionFileName {
+            get => $this->solutionFileName;
+            set {
+                if (empty($value)) {
+                    throw new \InvalidArgumentException('$solutionFileName cannot be empty');
+                }
+                $this->solutionFileName = $value;
+            }
+        },
         public string $solutionClassName,
         public array $cases,
         public string $exercise = '',
