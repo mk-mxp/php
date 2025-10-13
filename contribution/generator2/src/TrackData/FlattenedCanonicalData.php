@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile -- PHP Code Sniffer currently does not work with property hooks
 
 declare(strict_types=1);
 
@@ -11,7 +12,15 @@ final class FlattenedCanonicalData
      * @param string[] $comments
      */
     public function __construct(
-        public string $testClassName,
+        public string $testClassName {
+            get => $this->testClassName;
+            set {
+                if (empty($value)) {
+                    throw new \InvalidArgumentException('$testClassName cannot be empty');
+                }
+                $this->testClassName = $value;
+            }
+        },
         public string $solutionFileName,
         public string $solutionClassName,
         public array $cases,
