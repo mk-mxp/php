@@ -43,6 +43,8 @@ final class FlattenedCanonicalDataTest extends TestCase
                 => [ 'no-test-class-name', TypeError::class ],
             'Throws when given an object with no `solutionFileName` key'
                 => [ 'no-solution-file-name', TypeError::class ],
+            'Throws when given an object with no `solutionClassName` key'
+                => [ 'no-solution-class-name', TypeError::class ],
             'Throws when given an object with no `cases` key'
                 => [ 'no-cases', TypeError::class ],
         ];
