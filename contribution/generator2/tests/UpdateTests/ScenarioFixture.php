@@ -15,7 +15,7 @@ trait ScenarioFixture
         }
 
         return \json_decode(
-            json: \file_get_contents($file),
+            json: \file_get_contents($file) ?: '',
             flags: JSON_THROW_ON_ERROR
         );
     }
@@ -33,7 +33,7 @@ trait ScenarioFixture
             $this->fail('Output fixture file of scenario not found: ' . $file);
         }
 
-        $expected = \file_get_contents($file);
+        $expected = \file_get_contents($file) ?: '';
 
         $this->assertJson(
             $expected,
@@ -52,6 +52,6 @@ trait ScenarioFixture
     {
         $classReflector = new ReflectionClass($this);
 
-        return \dirname($classReflector->getFileName()) . '/fixtures';
+        return \dirname($classReflector->getFileName() ?: '') . '/fixtures';
     }
 }

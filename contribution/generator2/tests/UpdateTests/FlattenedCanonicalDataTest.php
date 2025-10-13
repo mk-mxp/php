@@ -33,6 +33,7 @@ final class FlattenedCanonicalDataTest extends TestCase
         );
     }
 
+    /** @return array<string, string[]> */
     public static function happyScenarios(): array
     {
         return [
