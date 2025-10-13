@@ -9,6 +9,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 use TypeError;
 
 /**
@@ -20,7 +21,7 @@ final class FlattenedCanonicalDataTest extends TestCase
 {
     use ScenarioFixture;
 
-    /** @param class-string<\Throwable> $expectedException */
+    /** @param class-string<Throwable> $expectedException */
     #[Test]
     #[TestDox('$_dataName')]
     #[DataProvider('unhappyScenarios')]
