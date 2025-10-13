@@ -52,6 +52,8 @@ final class FlattenedCanonicalDataTest extends TestCase
                 => [ 'empty-test-class-name', InvalidArgumentException::class ],
             'Throws when given an object with empty `solutionFileName`'
                 => [ 'empty-solution-file-name', InvalidArgumentException::class ],
+            'Throws when given an object with empty `solutionClassName`'
+                => [ 'empty-solution-class-name', InvalidArgumentException::class ],
         ];
     }
 
