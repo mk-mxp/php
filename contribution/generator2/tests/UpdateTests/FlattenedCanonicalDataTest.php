@@ -4,6 +4,7 @@ namespace App\Tests\UpdateTests;
 
 use App\Tests\UpdateTests\ScenarioFixture;
 use App\TrackData\FlattenedCanonicalData;
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
@@ -17,6 +18,28 @@ use PHPUnit\Framework\TestCase;
 final class FlattenedCanonicalDataTest extends TestCase
 {
     use ScenarioFixture;
+
+    #[Test]
+    #[TestDox('$_dataName')]
+    #[DataProvider('unhappyScenarios')]
+    public function testUnhappyScenario(
+        string $scenario,
+        string $expectedException,
+    ): void {
+        $this->expectException($expectedException);
+
+        // Silence PHP warnings about unset properties
+        @$this->subjectFor($scenario);
+    }
+
+    /** @return array<string, string[]> */
+    public static function unhappyScenarios(): array
+    {
+        return [
+            'Throws when given no object'
+                => [ 'no-object', InvalidArgumentException::class ],
+        ];
+    }
 
     #[Test]
     #[TestDox('$_dataName')]

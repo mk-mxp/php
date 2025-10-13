@@ -23,6 +23,9 @@ final class FlattenedCanonicalData
 
     public static function from(mixed $rawData): static
     {
+        if (!\is_object($rawData)) {
+            throw new \InvalidArgumentException('$rawData must be an object');
+        }
         /** @var \stdClass $rawData */
 
         $requiredProperties = [
