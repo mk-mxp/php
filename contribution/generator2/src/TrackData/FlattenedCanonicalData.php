@@ -21,11 +21,8 @@ final class FlattenedCanonicalData
     ) {
     }
 
-    public static function from(mixed $rawData): ?static
+    public static function from(mixed $rawData): static
     {
-        if (!\is_object($rawData)) {
-            return null;
-        }
         /** @var \stdClass $rawData */
 
         $requiredProperties = [
@@ -34,12 +31,8 @@ final class FlattenedCanonicalData
             'solutionClassName',
             'cases',
         ];
-        $actualProperties = \array_keys(\get_object_vars($rawData));
         $requiredData = [];
         foreach ($requiredProperties as $requiredProperty) {
-            if (!\in_array($requiredProperty, $actualProperties)) {
-                return null;
-            }
             $requiredData[$requiredProperty] = $rawData->{$requiredProperty};
             unset($rawData->{$requiredProperty});
         }

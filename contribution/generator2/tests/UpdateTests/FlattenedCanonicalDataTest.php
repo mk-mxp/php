@@ -44,7 +44,7 @@ final class FlattenedCanonicalDataTest extends TestCase
         ];
     }
 
-    private function subjectFor(string $scenario): ?FlattenedCanonicalData
+    private function subjectFor(string $scenario): FlattenedCanonicalData
     {
         return FlattenedCanonicalData::from($this->rawDataFor($scenario));
     }
