@@ -9,6 +9,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
+use TypeError;
 
 /**
  * The problem specification has no `testClassName`, `solutionFileName`,
@@ -38,6 +39,8 @@ final class FlattenedCanonicalDataTest extends TestCase
         return [
             'Throws when given no object'
                 => [ 'no-object', InvalidArgumentException::class ],
+            'Throws when given an object with no `cases` key'
+                => [ 'no-cases', TypeError::class ],
         ];
     }
 
