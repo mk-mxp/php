@@ -53,32 +53,25 @@ final class FlattenedCanonicalData
         }
         /** @var \stdClass $rawData */
 
-        $requiredProperties = [
+        $knownFields = [
             'testClassName',
             'solutionFileName',
             'solutionClassName',
             'cases',
+            'exercise',
+            'comments',
         ];
-        $requiredData = [];
-        foreach ($requiredProperties as $requiredProperty) {
-            $requiredData[$requiredProperty] = $rawData->{$requiredProperty};
-            unset($rawData->{$requiredProperty});
+        $data = [];
+        foreach ($knownFields as $field) {
+            $value = $rawData->{$field} ?? null;
+            if ($value !== null) {
+                $data[$field] = $value;
+            }
+            unset($rawData->{$field});
         }
-        /** @var array{testClassName: string, solutionFileName: string, solutionClassName: string, cases: array<object>} $requiredData */
+        $data['unknown'] = empty(\get_object_vars($rawData)) ? null : $rawData;
+        /** @var array{testClassName: string, solutionFileName: string, solutionClassName: string, cases: array<object>, exercise: string, comments: string[], unknown: object|null} $data */
 
-        /** @var string[] $comments */
-        $comments = $rawData->comments ?? [];
-        unset($rawData->comments);
-
-        /** @var string $exercise */
-        $exercise = $rawData->exercise ?? '';
-        unset($rawData->exercise);
-
-        return new static(
-            ...$requiredData,
-            exercise: $exercise,
-            comments: $comments,
-            unknown: empty(\get_object_vars($rawData)) ? null : $rawData,
-        );
+        return new static(...$data);
     }
 }

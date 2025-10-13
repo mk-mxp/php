@@ -30,8 +30,7 @@ final class FlattenedCanonicalDataTest extends TestCase
     ): void {
         $this->expectException($expectedException);
 
-        // Silence PHP warnings about unset properties
-        @$this->subjectFor($scenario);
+        $this->subjectFor($scenario);
     }
 
     /** @return array<string, string[]> */
