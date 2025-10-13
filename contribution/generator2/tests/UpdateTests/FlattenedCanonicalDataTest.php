@@ -26,9 +26,9 @@ final class FlattenedCanonicalDataTest extends TestCase
     ): void {
         $subject = $this->subjectFor($scenario);
 
-        $this->assertJsonStringEqualsOutputFixture(
+        $this->assertObjectEqualsJsonOutputFixture(
             $scenario,
-            \json_encode($subject, \JSON_PRETTY_PRINT | \JSON_THROW_ON_ERROR),
+            $subject,
             $scenario,
         );
     }

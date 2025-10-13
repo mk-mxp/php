@@ -20,13 +20,11 @@ trait ScenarioFixture
         );
     }
 
-    private function assertJsonStringEqualsOutputFixture(
+    private function assertObjectEqualsJsonOutputFixture(
         string $scenario,
-        string $actual,
+        object $actual,
         string $message = '',
     ): void {
-        $this->assertJson($actual, $message);
-
         $file = $this->pathToScenarioFixtures($scenario) . '/output.json';
 
         if (!\file_exists($file)) {
@@ -40,7 +38,11 @@ trait ScenarioFixture
             'Output fixture file of scenario is no valid JSON: ' . $file
         );
 
-        $this->assertSame(\trim($expected), $actual, $message);
+        $this->assertSame(
+            \trim($expected),
+            \json_encode($actual, \JSON_PRETTY_PRINT | \JSON_THROW_ON_ERROR),
+            $message
+        );
     }
 
     private function pathToScenarioFixtures(string $scenario): string
