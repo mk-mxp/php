@@ -1,0 +1,26 @@
+@startuml
+#https://plantuml.mxp.app/plantuml/uml/TL9DRzim3BtxLt0vPKEJN7OgXXsQhWE6VGJhUYjGq3Rj29CbGQIN1SF--oWxLjAaEmYGgCV7H_AzCgwoVKsm5GbylLf5t2rR8zk-x9bYvPsGasNbkrMmwAJlx8AbjgPShTykDYdqyENpgaCMYXfwMci66aTn6HHR56B44ino66g3RSHkLcmeidVpLEPg14HJzkBZxFH93Emx4jCHpruNztijr3tT-DxL6FTpsT97SfhmWrX0hnHHAQ3Hyn1gb9G5Vmg0h62kpNJeQaqQ4IcLrsCmrUPzrtYtXnoQOGZN_O1TI0B3ExPz-rxrFETrZMajoQX_l2V2T2gijjfBXSuxKw45PSCp0lgj4pTC2jz4hCHKzE4GoZHfBjuoj6EhnZi8qLV4_9pijfpdMhTQAcdAjLCWiNsw__OrYwkXt4FkuKnQOr7K2LGVkEwczq1wB3Ff3942HcrOOi-2fQL7b-QkSfa4VFFeqW10F4HoDSKBzRfcTPpGjDlfdTZVB6Ldsc5NkcnLRXnCmtk1I3TsP-p4n8CvMDJrJdYW6yBBi0t_fVnR5D_97inwD91XxWTVfiySFjbZyiaL15IVNi1E_MBSB__p199_pfUuYqOoxbZe71O9wqlK-HOFxqlWoV37zRm4EOvr4lKF
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title "Container diagram"
+Person(user, "Contributor", "Contributes sometimes")
+System_Boundary(theGen, "Test Generator for Updates") {
+  Container(command, "UpdateTestsCommand", "symfony Command","app:update-tests <slug>")
+  Container(configlet, "Configlet", "", "caches canonical data")
+  Container(exercise, "PracticeExercise", "", "controls generation process")
+  ContainerDb(canonicalData, "Canonical Data", "JSON", "cached by configlet")
+  Container(flattenedData, "FlattenedCanononicalData", "", "prepares trustable\ncommon set of\ndata to render")
+  ContainerDb(template, "Test template", "*.twig", "stored in exercise")
+  ContainerDb(testsFile, "Tests for students", "*Tests.php", "stored in exercise")
+}
+
+Rel(user, command, "issues")
+Rel(command, exercise, "slug, pathes")
+Rel(command, configlet, "invokes")
+Rel(configlet, canonicalData, "writes")
+Rel(exercise, canonicalData, "reads")
+Rel(exercise, flattenedData, "flattens")
+Rel(exercise, template, "renders")
+Rel(exercise, testsFile, "writes")
+@enduml
