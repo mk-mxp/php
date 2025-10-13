@@ -12,7 +12,7 @@ final class FlattenedCanonicalData
      * @param string[] $comments
      */
     public function __construct(
-        public private(set) string $testClassName {
+        public string $testClassName {
             get => $this->testClassName;
             set {
                 if (empty($value)) {
@@ -21,9 +21,9 @@ final class FlattenedCanonicalData
                 $this->testClassName = $value;
             }
         },
-        public private(set) string $solutionFileName,
-        public private(set) string $solutionClassName,
-        public private(set) array $cases,
+        public string $solutionFileName,
+        public string $solutionClassName,
+        public array $cases,
         public string $exercise = '',
         public array $comments = [],
         public object|null $unknown = null,
