@@ -4,6 +4,7 @@ namespace App\Tests\UpdateTests;
 
 use App\Tests\UpdateTests\ScenarioFixture;
 use App\TrackData\FlattenedCanonicalData;
+use Error;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -19,6 +20,31 @@ use TypeError;
 final class FlattenedCanonicalDataTest extends TestCase
 {
     use ScenarioFixture;
+
+    #[Test]
+    #[TestDox('Readonly property $property')]
+    #[DataProvider('readonlyScenarios')]
+    public function readonlyScenario(
+        string $property,
+        mixed $value
+    ): void {
+        $subject = $this->subjectFor('empty-cases');
+
+        $this->expectException(Error::class);
+
+        $subject->{$property} = $value;
+    }
+
+    /** @return array<int, list<list<string>|string>> */
+    public static function readonlyScenarios(): array
+    {
+        return [
+            [ 'testClassName', 'ShallNotSucceed' ],
+            [ 'solutionFileName', 'ShallNotSucceed' ],
+            [ 'solutionClassName', 'ShallNotSucceed' ],
+            [ 'cases', [ 'ShallNotSucceed' ] ],
+        ];
+    }
 
     /** @param class-string<\Throwable> $expectedException */
     #[Test]
