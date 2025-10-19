@@ -37,14 +37,8 @@
         ],
         "phpstan": "phpstan --memory-limit=2G",
         "test": "XDEBUG_MODE=coverage phpunit",
-        "lint": [
-            "phpcs -v",
-            "phpcs -v bin/*"
-        ],
-        "lint:fix": [
-            "phpcbf",
-            "phpcbf bin/*"
-        ],
+        "lint": "phpcs -v",
+        "lint:fix": "phpcbf",
         "ci": [
             "@test",
             "@lint",

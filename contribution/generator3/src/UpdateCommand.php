@@ -13,6 +13,7 @@ use Symfony\Component\Console\SingleCommandApplication;
 
 use function assert;
 use function is_string;
+use function realpath;
 
 class UpdateCommand extends SingleCommandApplication
 {
@@ -39,7 +40,7 @@ class UpdateCommand extends SingleCommandApplication
         assert(is_string($projectDir), 'project-dir must be a string');
         assert(is_string($exerciseSlug), 'exercise-slug must be a string');
 
-        $exercisePath = $projectDir . self::EXERCISES_PATH . $exerciseSlug;
+        $exercisePath = realpath($projectDir . self::EXERCISES_PATH . $exerciseSlug);
 
         $logger = new ConsoleLogger($output, [
             LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL,
