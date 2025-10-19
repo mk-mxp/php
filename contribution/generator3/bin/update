@@ -1,20 +1,18 @@
 #!/usr/bin/env php
 <?php
 
-use function dirname;
-use function is_dir;
-use function is_readable;
+use App\UpdateCommand as Application;
 
-$projectDir = dirname(__DIR__);
-
-(function ($projectDir) {
+(function () {
+    $projectDir = \dirname(__DIR__);
     $autoloaderDir = $projectDir . '/vendor';
     $autoloaderFile = $autoloaderDir . '/autoload.php';
-    if (!is_dir($autoloaderDir) || is_readable($autoloaderFile)) {
+    if (!\is_dir($autoloaderDir) || !\is_readable($autoloaderFile)) {
         throw new \LogicException('Dependencies are missing. Try running "composer install".');
     }
 
     require_once $autoloaderFile;
 
-    // Launch App here
+    $application = new Application();
+    $application->run();
 })();
