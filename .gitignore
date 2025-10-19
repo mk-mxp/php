@@ -11,3 +11,5 @@ composer.lock
 
 # IDE Files
 .idea
+.vscode
+contribution/generator-rewrite
