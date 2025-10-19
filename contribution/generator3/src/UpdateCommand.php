@@ -10,6 +10,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SingleCommandApplication;
+use Twig\Environment;
+use Twig\Loader\ArrayLoader;
 
 use function assert;
 use function is_dir;
@@ -94,6 +96,31 @@ class UpdateCommand extends SingleCommandApplication
 
         $logger->notice('Updating exercise in path: ' . $exercisePath);
 
+        $renderedTests = $this->renderTemplate(
+            $twigTemplate,
+            (object)\json_decode((string)\file_get_contents($canonicalData), flags: \JSON_THROW_ON_ERROR)
+        );
+
         return self::SUCCESS;
+    }
+
+    protected function renderTemplate(string $twigTemplate, object $canonicalData): string
+    {
+        $twigLoader = new ArrayLoader();
+        $twigEnvironment = new Environment(
+            $twigLoader,
+            [
+                'strict_variables' => true,
+                'autoescape' => false,
+                'use_yield' => true,
+                // 'debug' => true,
+            ]
+        );
+        $template = (string)\file_get_contents($twigTemplate);
+
+        return $twigEnvironment
+            ->createTemplate($template, $twigTemplate)
+            ->render(['data' => $canonicalData])
+            ;
     }
 }
