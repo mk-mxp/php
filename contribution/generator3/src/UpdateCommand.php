@@ -12,12 +12,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SingleCommandApplication;
 
 use function assert;
+use function is_dir;
+use function is_file;
 use function is_string;
+use function is_readable;
+use function is_writable;
 use function realpath;
 
 class UpdateCommand extends SingleCommandApplication
 {
     private const EXERCISES_PATH = '/exercises/practice/';
+    private const TEMPLATE_PATH = '/.meta/tests.php.twig';
 
     public function __construct()
     {
@@ -44,14 +49,25 @@ class UpdateCommand extends SingleCommandApplication
             LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL,
         ]);
 
-        $exercisePath = $projectDir . self::EXERCISES_PATH . $exerciseSlug;
+        $rawExercisePath = $projectDir . self::EXERCISES_PATH . $exerciseSlug;
+        $exercisePath = realpath($rawExercisePath);
 
-        if (!\is_dir($exercisePath) || !\is_writable($exercisePath)) {
-            $logger->error('Cannot update exercise in path: ' . $exercisePath);
+        if (
+            $exercisePath === false
+            || !\is_dir($exercisePath)
+            || !\is_writable($exercisePath)
+        ) {
+            $logger->error('Cannot update exercise in path: ' . $rawExercisePath);
             return self::FAILURE;
         }
 
-        $exercisePath = realpath($exercisePath);
+        $twigTemplate = $exercisePath . self::TEMPLATE_PATH;
+
+        if (!\is_file($twigTemplate) || !\is_readable($twigTemplate)) {
+            $logger->error('No readable TWIG template: ' . $twigTemplate);
+            return self::FAILURE;
+        }
+
         $logger->notice('Updating exercise in path: ' . $exercisePath);
 
         return self::SUCCESS;
