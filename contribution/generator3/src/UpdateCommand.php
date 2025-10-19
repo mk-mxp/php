@@ -36,6 +36,7 @@ class UpdateCommand extends SingleCommandApplication
         $this->setVersion('1.0.0');
         $this->addArgument('project-dir', InputArgument::REQUIRED, 'Path to project with the exercises in ' . self::EXERCISES_PATH . '.');
         $this->addArgument('exercise-slug', InputArgument::REQUIRED, 'Slug of the exercise in ' . self::EXERCISES_PATH . '.');
+        $this->addArgument('canonical-data', InputArgument::OPTIONAL, 'Path to canonical data for the exercise <exercise-slug>.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -65,6 +66,17 @@ class UpdateCommand extends SingleCommandApplication
 
         if (!\is_file($twigTemplate) || !\is_readable($twigTemplate)) {
             $logger->error('No readable TWIG template: ' . $twigTemplate);
+            return self::FAILURE;
+        }
+
+        $canonicalData = $input->getArgument('canonical-data')
+            ?? new Configlet(realpath(__DIR__ . '/../../../'))
+                ->pathToCanonicalData($exerciseSlug)
+                ;
+        assert(is_string($canonicalData), 'canonical-data must be a string');
+
+        if (!\is_file($canonicalData) || !\is_readable($canonicalData)) {
+            $logger->error('No readable canonical data: ' . $canonicalData);
             return self::FAILURE;
         }
 

@@ -20,5 +20,5 @@ function cleanup {
 errorOutput=$(git stash 2>&1) || exitWithFailure "$errorOutput"
 # From here, reset the fixture to initial state
 trap cleanup EXIT
-errorOutput=$(bin/update.php -vvv "$fixturePath" line-up 2>&1) || exitWithFailure "$errorOutput"
+errorOutput=$(bin/update.php -vvv "$fixturePath" line-up "$fixturePath/canonical-data.json" 2>&1) || exitWithFailure "$errorOutput"
 git diff --exit-code HEAD -- "$fixturePath"
