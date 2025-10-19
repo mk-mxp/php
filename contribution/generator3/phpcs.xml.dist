@@ -25,6 +25,8 @@
     <file>src/</file>
     <file>tests/</file>
 
+    <exclude-pattern>tests/**/fixture/*</exclude-pattern>
+
     <!-- Include all sniffs in the PSR12 standard -->
     <rule ref="PSR12" />
 </ruleset>
