@@ -81,10 +81,10 @@ class UpdateCommand extends SingleCommandApplication
             return self::FAILURE;
         }
 
+        $trackRoot = (string)realpath(__DIR__ . '/../../../');
         $canonicalData = $input->getArgument('canonical-data')
-            ?? new Configlet(realpath(__DIR__ . '/../../../'))
-                ->pathToCanonicalData($exerciseSlug)
-                ;
+            ?? new Configlet($trackRoot)->pathToCanonicalData($exerciseSlug)
+            ;
         assert(is_string($canonicalData), 'canonical-data must be a string');
 
         if (!\is_file($canonicalData) || !\is_readable($canonicalData)) {
