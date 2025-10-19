@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- https://docs.phpunit.de/en/12.4/configuration.html -->
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    beStrictAboutChangesToGlobalState="true"
+    beStrictAboutOutputDuringTests="true"
+    bootstrap="tests/bootstrap.php"
+    cacheDirectory=".phpunit.cache/"
+    colors="true"
+    displayDetailsOnAllIssues="true"
+    executionOrder="random"
+    failOnAllIssues="true"
+>
+    <php>
+        <ini name="display_errors" value="1" />
+        <ini name="error_reporting" value="-1" />
+        <server name="SHELL_VERBOSITY" value="-1" />
+    </php>
+
+    <testsuites>
+        <testsuite name="Tests">
+            <directory>tests/</directory>
+            <exclude>*/fixture/*</exclude>
+        </testsuite>
+    </testsuites>
+
+    <source
+        ignoreIndirectDeprecations="true"
+    >
+        <include>
+            <directory suffix=".php">src/</directory>
+        </include>
+        <deprecationTrigger>
+            <function>trigger_deprecation</function>
+        </deprecationTrigger>
+    </source>
+    <coverage>
+        <report>
+            <html outputDirectory="build/code-coverage/"/>
+            <text outputFile="php://stdout"/>
+        </report>
+    </coverage>
+</phpunit>

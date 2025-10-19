@@ -1,0 +1,54 @@
+{
+    "name": "exercism/php-test-generator",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "psr/log": "^3.0",
+        "symfony/console": "^7.3.4",
+        "twig/twig": "^3.21.1"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1.31",
+        "phpunit/phpunit": "^12.4.1",
+        "squizlabs/php_codesniffer": "^4.0.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "launch:code-coverage": [
+            "php -S 0.0.0.0:8080 -t build/code-coverage/"
+        ],
+        "phpstan": "phpstan --memory-limit=2G",
+        "test": "XDEBUG_MODE=coverage phpunit",
+        "lint": [
+            "phpcs -v",
+            "phpcs -v bin/*"
+        ],
+        "lint:fix": [
+            "phpcbf",
+            "phpcbf bin/*"
+        ],
+        "ci": [
+            "@test",
+            "@lint",
+            "@phpstan"
+        ]
+    }
+}
