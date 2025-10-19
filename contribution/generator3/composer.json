@@ -37,6 +37,7 @@
         ],
         "phpstan": "phpstan --memory-limit=2G",
         "test": "XDEBUG_MODE=coverage phpunit",
+        "golden-test": "bin/golden-test.sh",
         "lint": "phpcs -v",
         "lint:fix": "phpcbf",
         "ci": [

@@ -22,7 +22,7 @@
     <testsuites>
         <testsuite name="Tests">
             <directory>tests/</directory>
-            <exclude>*/fixture/*</exclude>
+            <exclude>**/fixture/</exclude>
         </testsuite>
     </testsuites>
 
