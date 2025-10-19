@@ -40,11 +40,18 @@ class UpdateCommand extends SingleCommandApplication
         assert(is_string($projectDir), 'project-dir must be a string');
         assert(is_string($exerciseSlug), 'exercise-slug must be a string');
 
-        $exercisePath = realpath($projectDir . self::EXERCISES_PATH . $exerciseSlug);
-
         $logger = new ConsoleLogger($output, [
             LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL,
         ]);
+
+        $exercisePath = $projectDir . self::EXERCISES_PATH . $exerciseSlug;
+
+        if (!\is_dir($exercisePath) || !\is_writable($exercisePath)) {
+            $logger->error('Cannot update exercise in path: ' . $exercisePath);
+            return self::FAILURE;
+        }
+
+        $exercisePath = realpath($exercisePath);
         $logger->notice('Updating exercise in path: ' . $exercisePath);
 
         return self::SUCCESS;
