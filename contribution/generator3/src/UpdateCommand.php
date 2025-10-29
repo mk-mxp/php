@@ -75,15 +75,11 @@ class UpdateCommand extends SingleCommandApplication
                 $projectDir,
                 $exerciseSlug,
             );
+            $twigTemplate = $this->usableTwigTemplate(
+                $exercisePath,
+            );
         } catch (Throwable $exception) {
             $this->logger?->error($exception);
-            return self::FAILURE;
-        }
-
-        $twigTemplate = $exercisePath . self::TEMPLATE_PATH;
-
-        if (!\is_file($twigTemplate) || !\is_readable($twigTemplate)) {
-            $this->logger?->error('No readable TWIG template: ' . $twigTemplate);
             return self::FAILURE;
         }
 
@@ -152,6 +148,17 @@ class UpdateCommand extends SingleCommandApplication
         }
 
         return $exercisePath;
+    }
+
+    protected function usableTwigTemplate(string $exercisePath): string
+    {
+        $twigTemplate = $exercisePath . self::TEMPLATE_PATH;
+
+        if (!\is_file($twigTemplate) || !\is_readable($twigTemplate)) {
+            throw new InvalidArgumentException('No readable TWIG template "' . $twigTemplate . '"');
+        }
+
+        return $twigTemplate;
     }
 
     protected function renderTemplate(string $twigTemplate, object $canonicalData): string
