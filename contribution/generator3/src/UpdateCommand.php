@@ -81,9 +81,12 @@ class UpdateCommand extends SingleCommandApplication
 
             $logger->notice('Updating exercise in path: ' . $exercisePath);
 
+            $exerciseData = $this->exerciseData(
+                $canonicalData,
+            );
             $renderedTests = $this->renderTemplate(
                 $twigTemplate,
-                (object)\json_decode((string)\file_get_contents($canonicalData), flags: \JSON_THROW_ON_ERROR)
+                $exerciseData,
             );
 
             var_dump($renderedTests);
@@ -169,6 +172,12 @@ class UpdateCommand extends SingleCommandApplication
 
         return $canonicalData;
     }
+
+    protected function exerciseData(string $canonicalData): object
+    {
+        return (object)\json_decode((string)\file_get_contents($canonicalData), flags: \JSON_THROW_ON_ERROR);
+    }
+
 
     protected function renderTemplate(string $twigTemplate, object $canonicalData): string
     {
