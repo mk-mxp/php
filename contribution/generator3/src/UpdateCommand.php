@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,6 +26,8 @@ class UpdateCommand extends SingleCommandApplication
 {
     private const EXERCISES_PATH = '/exercises/practice/';
     private const TEMPLATE_PATH = '/.meta/tests.php.twig';
+
+    private LoggerInterface|null $logger = null;
 
     public function __construct()
     {
@@ -60,7 +63,7 @@ class UpdateCommand extends SingleCommandApplication
         assert(is_string($projectDir), 'project-dir must be a string');
         assert(is_string($exerciseSlug), 'exercise-slug must be a string');
 
-        $logger = new ConsoleLogger($output, [
+        $this->logger = new ConsoleLogger($output, [
             LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL,
         ]);
 
@@ -72,14 +75,14 @@ class UpdateCommand extends SingleCommandApplication
             || !\is_dir($exercisePath)
             || !\is_writable($exercisePath)
         ) {
-            $logger->error('Cannot update exercise in path: ' . $rawExercisePath);
+            $this->logger?->error('Cannot update exercise in path: ' . $rawExercisePath);
             return self::FAILURE;
         }
 
         $twigTemplate = $exercisePath . self::TEMPLATE_PATH;
 
         if (!\is_file($twigTemplate) || !\is_readable($twigTemplate)) {
-            $logger->error('No readable TWIG template: ' . $twigTemplate);
+            $this->logger?->error('No readable TWIG template: ' . $twigTemplate);
             return self::FAILURE;
         }
 
@@ -90,11 +93,11 @@ class UpdateCommand extends SingleCommandApplication
         assert(is_string($canonicalData), 'canonical-data must be a string');
 
         if (!\is_file($canonicalData) || !\is_readable($canonicalData)) {
-            $logger->error('No readable canonical data: ' . $canonicalData);
+            $this->logger?->error('No readable canonical data: ' . $canonicalData);
             return self::FAILURE;
         }
 
-        $logger->notice('Updating exercise in path: ' . $exercisePath);
+        $this->logger?->notice('Updating exercise in path: ' . $exercisePath);
 
         $renderedTests = $this->renderTemplate(
             $twigTemplate,
