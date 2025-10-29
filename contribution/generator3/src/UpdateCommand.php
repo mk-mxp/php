@@ -78,17 +78,19 @@ class UpdateCommand extends SingleCommandApplication
                 $input->getArgument('canonical-data'),
                 $exerciseSlug,
             );
+
+            $logger->notice('Updating exercise in path: ' . $exercisePath);
+
+            $renderedTests = $this->renderTemplate(
+                $twigTemplate,
+                (object)\json_decode((string)\file_get_contents($canonicalData), flags: \JSON_THROW_ON_ERROR)
+            );
+
+            var_dump($renderedTests);
         } catch (Throwable $exception) {
             $logger->error($exception);
             return self::FAILURE;
         }
-
-        $logger->notice('Updating exercise in path: ' . $exercisePath);
-
-        $renderedTests = $this->renderTemplate(
-            $twigTemplate,
-            (object)\json_decode((string)\file_get_contents($canonicalData), flags: \JSON_THROW_ON_ERROR)
-        );
 
         return self::SUCCESS;
     }
