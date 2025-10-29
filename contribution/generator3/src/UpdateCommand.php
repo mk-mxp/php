@@ -65,7 +65,9 @@ class UpdateCommand extends SingleCommandApplication
         ]);
 
         try {
-            $projectDir = $this->usableProjectDir((string)$input->getArgument('project-dir'));
+            $projectDir = $this->usableProjectDir(
+                $input->getArgument('project-dir'),
+            );
         } catch (Throwable $exception) {
             $this->logger?->error($exception);
             return self::FAILURE;
@@ -114,8 +116,12 @@ class UpdateCommand extends SingleCommandApplication
         return self::SUCCESS;
     }
 
-    protected function usableProjectDir(string $rawProjectDir): string
+    protected function usableProjectDir(mixed $rawProjectDir): string
     {
+        if (!is_string($rawProjectDir)) {
+            throw new InvalidArgumentException('project-dir must be string');
+        }
+
         $projectDir = realpath($rawProjectDir);
 
         if (
