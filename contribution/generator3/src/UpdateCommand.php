@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SingleCommandApplication;
+use Throwable;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
@@ -58,14 +60,19 @@ class UpdateCommand extends SingleCommandApplication
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $projectDir = $input->getArgument('project-dir');
-        $exerciseSlug = $input->getArgument('exercise-slug');
-        assert(is_string($projectDir), 'project-dir must be a string');
-        assert(is_string($exerciseSlug), 'exercise-slug must be a string');
-
         $this->logger = new ConsoleLogger($output, [
             LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL,
         ]);
+
+        try {
+            $projectDir = $this->usableProjectDir((string)$input->getArgument('project-dir'));
+        } catch (Throwable $exception) {
+            $this->logger?->error($exception);
+            return self::FAILURE;
+        }
+
+        $exerciseSlug = $input->getArgument('exercise-slug');
+        assert(is_string($exerciseSlug), 'exercise-slug must be a string');
 
         $rawExercisePath = $projectDir . self::EXERCISES_PATH . $exerciseSlug;
         $exercisePath = realpath($rawExercisePath);
@@ -105,6 +112,21 @@ class UpdateCommand extends SingleCommandApplication
         );
 
         return self::SUCCESS;
+    }
+
+    protected function usableProjectDir(string $rawProjectDir): string
+    {
+        $projectDir = realpath($rawProjectDir);
+
+        if (
+            $projectDir === false
+            || !\is_dir($projectDir)
+            || !\is_readable($projectDir)
+        ) {
+            throw new InvalidArgumentException('Cannot use project-dir "' . $rawProjectDir . '"');
+        }
+
+        return $projectDir;
     }
 
     protected function renderTemplate(string $twigTemplate, object $canonicalData): string
