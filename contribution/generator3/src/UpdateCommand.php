@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App;
 
 use InvalidArgumentException;
-use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,8 +26,6 @@ class UpdateCommand extends SingleCommandApplication
 {
     private const EXERCISES_PATH = '/exercises/practice/';
     private const TEMPLATE_PATH = '/.meta/tests.php.twig';
-
-    private LoggerInterface|null $logger = null;
 
     public function __construct()
     {
@@ -59,7 +56,7 @@ class UpdateCommand extends SingleCommandApplication
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->logger = new ConsoleLogger($output, [
+        $logger = new ConsoleLogger($output, [
             LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL,
         ]);
 
@@ -82,11 +79,11 @@ class UpdateCommand extends SingleCommandApplication
                 $exerciseSlug,
             );
         } catch (Throwable $exception) {
-            $this->logger?->error($exception);
+            $logger->error($exception);
             return self::FAILURE;
         }
 
-        $this->logger?->notice('Updating exercise in path: ' . $exercisePath);
+        $logger->notice('Updating exercise in path: ' . $exercisePath);
 
         $renderedTests = $this->renderTemplate(
             $twigTemplate,
