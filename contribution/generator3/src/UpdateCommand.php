@@ -16,7 +16,6 @@ use Throwable;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
-use function assert;
 use function is_dir;
 use function is_file;
 use function is_string;
@@ -78,19 +77,12 @@ class UpdateCommand extends SingleCommandApplication
             $twigTemplate = $this->usableTwigTemplate(
                 $exercisePath,
             );
+            $canonicalData = $this->usableCanonicalData(
+                $input->getArgument('canonical-data'),
+                $exerciseSlug,
+            );
         } catch (Throwable $exception) {
             $this->logger?->error($exception);
-            return self::FAILURE;
-        }
-
-        $trackRoot = (string)realpath(__DIR__ . '/../../../');
-        $canonicalData = $input->getArgument('canonical-data')
-            ?? new Configlet($trackRoot)->pathToCanonicalData($exerciseSlug)
-            ;
-        assert(is_string($canonicalData), 'canonical-data must be a string');
-
-        if (!\is_file($canonicalData) || !\is_readable($canonicalData)) {
-            $this->logger?->error('No readable canonical data: ' . $canonicalData);
             return self::FAILURE;
         }
 
@@ -159,6 +151,24 @@ class UpdateCommand extends SingleCommandApplication
         }
 
         return $twigTemplate;
+    }
+
+    protected function usableCanonicalData(mixed $rawCanonicalData, string $exerciseSlug): string
+    {
+        $trackRoot = (string)realpath(__DIR__ . '/../../../');
+        $canonicalData = $rawCanonicalData
+            ?? new Configlet($trackRoot)->pathToCanonicalData($exerciseSlug)
+            ;
+
+        if (!is_string($canonicalData)) {
+            throw new InvalidArgumentException('canonical-data must be string');
+        }
+
+        if (!\is_file($canonicalData) || !\is_readable($canonicalData)) {
+            throw new InvalidArgumentException('No readable canonical data "' . $canonicalData . '"');
+        }
+
+        return $canonicalData;
     }
 
     protected function renderTemplate(string $twigTemplate, object $canonicalData): string
