@@ -68,23 +68,15 @@ class UpdateCommand extends SingleCommandApplication
             $projectDir = $this->usableProjectDir(
                 $input->getArgument('project-dir'),
             );
+            $exerciseSlug = $this->usableExerciseSlug(
+                $input->getArgument('exercise-slug'),
+            );
+            $exercisePath = $this->usableExercisePath(
+                $projectDir,
+                $exerciseSlug,
+            );
         } catch (Throwable $exception) {
             $this->logger?->error($exception);
-            return self::FAILURE;
-        }
-
-        $exerciseSlug = $input->getArgument('exercise-slug');
-        assert(is_string($exerciseSlug), 'exercise-slug must be a string');
-
-        $rawExercisePath = $projectDir . self::EXERCISES_PATH . $exerciseSlug;
-        $exercisePath = realpath($rawExercisePath);
-
-        if (
-            $exercisePath === false
-            || !\is_dir($exercisePath)
-            || !\is_writable($exercisePath)
-        ) {
-            $this->logger?->error('Cannot update exercise in path: ' . $rawExercisePath);
             return self::FAILURE;
         }
 
@@ -133,6 +125,33 @@ class UpdateCommand extends SingleCommandApplication
         }
 
         return $projectDir;
+    }
+
+    protected function usableExerciseSlug(mixed $rawExerciseSlug): string
+    {
+        if (!is_string($rawExerciseSlug)) {
+            throw new InvalidArgumentException('exercise-slug must be string');
+        }
+
+        // TODO: RegEx for slug?
+
+        return $rawExerciseSlug;
+    }
+
+    protected function usableExercisePath(string $projectDir, string $exerciseSlug): string
+    {
+        $rawExercisePath = $projectDir . self::EXERCISES_PATH . $exerciseSlug;
+        $exercisePath = realpath($rawExercisePath);
+
+        if (
+            $exercisePath === false
+            || !\is_dir($exercisePath)
+            || !\is_writable($exercisePath)
+        ) {
+            throw new InvalidArgumentException('Cannot update exercise in "' . $rawExercisePath . '"');
+        }
+
+        return $exercisePath;
     }
 
     protected function renderTemplate(string $twigTemplate, object $canonicalData): string
