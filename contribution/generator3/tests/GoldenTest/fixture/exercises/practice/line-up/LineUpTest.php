@@ -173,22 +173,12 @@ final class LineUpTest extends TestCase
     }
 
     /** uuid: 0375f250-ce92-4195-9555-00e28ccc4d99 */
-     #[TestDox('Format exceptional ordinal numeral 101')]
-    public function testFormatExceptionalOrdinalNumeral101(): void
+     #[TestDox('Different description from canonical -> format exceptional ordinal numeral 101')]
+    public function testDifferentDescriptionFromCanonicalFormatExceptionalOrdinalNumeral101(): void
     {
         $this->assertSame(
             'Zeinab, you are the 101st customer we serve today. Thank you!',
             format('Zeinab', 101)
-        );
-    }
-
-    /** uuid: 0d8a4974-9a8a-45a4-aca7-a9fb473c9836 */
-     #[TestDox('Format non-exceptional ordinal numeral 112')]
-    public function testFormatNonExceptionalOrdinalNumeral112(): void
-    {
-        $this->assertSame(
-            'Knud, you are the 112th customer we serve today. Thank you!',
-            format('Knud', 112)
         );
     }
 
