@@ -31,6 +31,7 @@ use function json_decode;
 use function preg_replace;
 use function realpath;
 use function str_replace;
+use function ucfirst;
 use function ucwords;
 
 use const ARRAY_FILTER_USE_BOTH;
@@ -297,7 +298,7 @@ class UpdateCommand extends SingleCommandApplication
                 );
             }
 
-            $case->description = $testsTomlData[$case->uuid]['description'];
+            $case->description = ucfirst($testsTomlData[$case->uuid]['description']);
         }
     }
 
