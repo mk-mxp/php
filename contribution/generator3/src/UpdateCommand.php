@@ -19,6 +19,7 @@ use Twig\TwigFunction;
 
 use function array_filter;
 use function file_get_contents;
+use function file_put_contents;
 use function is_array;
 use function is_dir;
 use function is_file;
@@ -115,9 +116,11 @@ class UpdateCommand extends SingleCommandApplication
                 $twigTemplateFile,
                 $canonicalData,
             );
-
-            var_dump($renderedTests);
-            var_dump($this->pascalCase($exerciseSlug) . 'Test.php');
+            $exerciseTestFile = $exercisePath . '/' . $this->pascalCase($exerciseSlug) . 'Test.php';
+            file_put_contents(
+                $exerciseTestFile,
+                $renderedTests,
+            );
         } catch (Throwable $exception) {
             $logger->error($exception);
             return self::FAILURE;
