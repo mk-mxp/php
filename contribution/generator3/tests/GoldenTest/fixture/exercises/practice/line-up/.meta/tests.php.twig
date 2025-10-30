@@ -17,7 +17,7 @@ final class LineUpTest extends TestCase
 
     /** uuid: {{ case.uuid }} */
      #[TestDox('{{ case.description }}')]
-    public function {{ testfn(case.description) }}()
+    public function {{ testfn(case.description) }}(): void
     {
         $this->assertSame(
             '{{ case.expected}}',
