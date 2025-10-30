@@ -23,7 +23,13 @@ use function is_file;
 use function is_string;
 use function is_readable;
 use function is_writable;
+use function json_decode;
+use function preg_replace;
 use function realpath;
+use function str_replace;
+use function ucwords;
+
+use const JSON_THROW_ON_ERROR;
 
 class UpdateCommand extends SingleCommandApplication
 {
@@ -124,8 +130,8 @@ class UpdateCommand extends SingleCommandApplication
 
         if (
             $projectDir === false
-            || !\is_dir($projectDir)
-            || !\is_readable($projectDir)
+            || !is_dir($projectDir)
+            || !is_readable($projectDir)
         ) {
             throw new InvalidArgumentException('Cannot use project-dir "' . $rawProjectDir . '"');
         }
@@ -151,8 +157,8 @@ class UpdateCommand extends SingleCommandApplication
 
         if (
             $exercisePath === false
-            || !\is_dir($exercisePath)
-            || !\is_writable($exercisePath)
+            || !is_dir($exercisePath)
+            || !is_writable($exercisePath)
         ) {
             throw new InvalidArgumentException('Cannot update exercise in "' . $rawExercisePath . '"');
         }
@@ -174,7 +180,7 @@ class UpdateCommand extends SingleCommandApplication
     {
         $file = $basePath . $pathToFile;
 
-        if (!\is_file($file) || !\is_readable($file)) {
+        if (!is_file($file) || !is_readable($file)) {
             throw new InvalidArgumentException('No readable file "' . $file . '"');
         }
 
@@ -192,7 +198,7 @@ class UpdateCommand extends SingleCommandApplication
             throw new InvalidArgumentException('canonical-data must be string');
         }
 
-        if (!\is_file($canonicalData) || !\is_readable($canonicalData)) {
+        if (!is_file($canonicalData) || !is_readable($canonicalData)) {
             throw new InvalidArgumentException('No readable canonical data "' . $canonicalData . '"');
         }
 
@@ -201,7 +207,7 @@ class UpdateCommand extends SingleCommandApplication
 
     protected function canonicalData(string $canonicalData): object
     {
-        return (object)\json_decode((string)file_get_contents($canonicalData), flags: \JSON_THROW_ON_ERROR);
+        return (object)json_decode((string)file_get_contents($canonicalData), flags: JSON_THROW_ON_ERROR);
     }
 
     /** @return array<string, array{}|bool|int|string> */
