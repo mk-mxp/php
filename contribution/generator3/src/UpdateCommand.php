@@ -161,13 +161,7 @@ class UpdateCommand extends SingleCommandApplication
 
     protected function usableTwigTemplateFile(string $exercisePath): string
     {
-        $twigTemplate = $exercisePath . self::TEMPLATE_PATH;
-
-        if (!\is_file($twigTemplate) || !\is_readable($twigTemplate)) {
-            throw new InvalidArgumentException('No readable TWIG template "' . $twigTemplate . '"');
-        }
-
-        return $twigTemplate;
+        return $this->readableFile($exercisePath, self::TEMPLATE_PATH);
     }
 
     protected function usableTestsTomlFile(string $exercisePath): string
