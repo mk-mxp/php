@@ -38,19 +38,20 @@ class UpdateCommand extends SingleCommandApplication
 
         $this->setVersion('1.0.0');
         $this->addArgument(
-            'project-dir',
-            InputArgument::REQUIRED,
-            'Path to project with the exercises in ' . self::EXERCISES_PATH . '.'
-        );
-        $this->addArgument(
             'exercise-slug',
             InputArgument::REQUIRED,
-            'Slug of the exercise in ' . self::EXERCISES_PATH . '.'
+            'Slug of the exercise in ' . self::EXERCISES_PATH . '.',
+        );
+        $this->addArgument(
+            'project-dir',
+            InputArgument::OPTIONAL,
+            'Path to project with the exercises in ' . self::EXERCISES_PATH . '.',
+            './',
         );
         $this->addArgument(
             'canonical-data',
             InputArgument::OPTIONAL,
-            'Path to canonical data for the exercise <exercise-slug>.'
+            'Path to canonical data for the exercise <exercise-slug>.',
         );
     }
 
