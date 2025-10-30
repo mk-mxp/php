@@ -17,6 +17,7 @@ use Twig\Extension\DebugExtension;
 use Twig\Loader\ArrayLoader;
 use Twig\TwigFunction;
 
+use function file_get_contents;
 use function is_dir;
 use function is_file;
 use function is_string;
@@ -200,7 +201,7 @@ class UpdateCommand extends SingleCommandApplication
 
     protected function canonicalData(string $canonicalData): object
     {
-        return (object)\json_decode((string)\file_get_contents($canonicalData), flags: \JSON_THROW_ON_ERROR);
+        return (object)\json_decode((string)file_get_contents($canonicalData), flags: \JSON_THROW_ON_ERROR);
     }
 
 
@@ -221,7 +222,7 @@ class UpdateCommand extends SingleCommandApplication
             'testfn',
             static fn (string $label): string => 'test' . str_replace(' ', '', ucwords(preg_replace('/[^a-zA-Z0-9]/', ' ', $label) ?? ''))
         ));
-        $template = (string)\file_get_contents($twigTemplate);
+        $template = (string)file_get_contents($twigTemplate);
 
         return $twigEnvironment
             ->createTemplate($template, $twigTemplate)
