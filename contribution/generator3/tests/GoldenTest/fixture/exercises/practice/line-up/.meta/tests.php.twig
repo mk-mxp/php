@@ -1,6 +1,28 @@
 <?php
+{# See all available values with `{{ dump() }}` #}
+{# or "data" with `{{ data | json_encode(constant('JSON_PRETTY_PRINT')) }}` #}
 
-class ListOpsTest extends PHPUnit\Framework\TestCase
+declare(strict_types=1);
+
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\TestDox;
+
+final class LineUpTest extends TestCase
 {
-    {{ data.exercise }}
+    public static function setUpBeforeClass(): void
+    {
+        require_once('LineUp.php');
+    }
+{% for case in data.cases %}
+
+    /** uuid: {{ case.uuid }} */
+     #[TestDox('{{ case.description }}')]
+    public function {{ testfn(case.description) }}()
+    {
+        $this->assertSame(
+            '{{ case.expected}}',
+            format('{{ case.input.name }}', {{ case.input.number }})
+        );
+    }
+{% endfor -%}
 }

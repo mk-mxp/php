@@ -13,7 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SingleCommandApplication;
 use Throwable;
 use Twig\Environment;
+use Twig\Extension\DebugExtension;
 use Twig\Loader\ArrayLoader;
+use Twig\TwigFunction;
 
 use function is_dir;
 use function is_file;
@@ -189,9 +191,14 @@ class UpdateCommand extends SingleCommandApplication
                 'strict_variables' => true,
                 'autoescape' => false,
                 'use_yield' => true,
-                // 'debug' => true,
+                'debug' => true,
             ]
         );
+        $twigEnvironment->addExtension(new DebugExtension());
+        $twigEnvironment->addFunction(new TwigFunction(
+            'testfn',
+            static fn (string $label): string => 'test' . str_replace(' ', '', ucwords(preg_replace('/[^a-zA-Z0-9]/', ' ', $label)))
+        ));
         $template = (string)\file_get_contents($twigTemplate);
 
         return $twigEnvironment
