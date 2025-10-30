@@ -37,6 +37,13 @@ use function ucwords;
 use const ARRAY_FILTER_USE_BOTH;
 use const JSON_THROW_ON_ERROR;
 
+/**
+ * - TODO: Nested cases -> flatten canonical data before merging with tests.toml
+ * - TODO: Provide `export()` TWIG function for complex data types (see homersimpson for one)
+ * - TODO: Consider using `.meta/config.json` for file names
+ * - TODO: Consider using `case.property` for function / method naming
+ * - TODO: Provide more golden test cases
+ */
 class UpdateCommand extends SingleCommandApplication
 {
     private const EXERCISES_PATH = '/exercises/practice/';
