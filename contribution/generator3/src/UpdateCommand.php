@@ -88,7 +88,7 @@ class UpdateCommand extends SingleCommandApplication
 
             $logger->notice('Updating exercise in path: ' . $exercisePath);
 
-            $canonicalData = $this->exerciseData(
+            $canonicalData = $this->canonicalData(
                 $canonicalDataFile,
             );
             // TODO: $testsToml = $this->testsTomlData(
@@ -198,7 +198,7 @@ class UpdateCommand extends SingleCommandApplication
         return $canonicalData;
     }
 
-    protected function exerciseData(string $canonicalData): object
+    protected function canonicalData(string $canonicalData): object
     {
         return (object)\json_decode((string)\file_get_contents($canonicalData), flags: \JSON_THROW_ON_ERROR);
     }
