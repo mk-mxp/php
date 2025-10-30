@@ -292,7 +292,12 @@ class UpdateCommand extends SingleCommandApplication
                 );
             }
 
-            if (!isset($testsTomlData[$case->uuid]['description'])) {
+            if (
+                !(
+                    isset($testsTomlData[$case->uuid]['description'])
+                    && is_string($testsTomlData[$case->uuid]['description'])
+                )
+            ) {
                 throw new InvalidArgumentException(
                     'Missing test description in tests.toml "' . $case->uuid . '"'
                 );
