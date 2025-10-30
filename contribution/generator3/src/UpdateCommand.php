@@ -17,9 +17,12 @@ use Twig\Extension\DebugExtension;
 use Twig\Loader\ArrayLoader;
 use Twig\TwigFunction;
 
+use function array_filter;
 use function file_get_contents;
+use function is_array;
 use function is_dir;
 use function is_file;
+use function is_object;
 use function is_string;
 use function is_readable;
 use function is_writable;
@@ -29,6 +32,7 @@ use function realpath;
 use function str_replace;
 use function ucwords;
 
+use const ARRAY_FILTER_USE_BOTH;
 use const JSON_THROW_ON_ERROR;
 
 class UpdateCommand extends SingleCommandApplication
@@ -101,10 +105,11 @@ class UpdateCommand extends SingleCommandApplication
             $testsToml = $this->testsTomlData(
                 $testsTomlFile,
             );
-            // TODO: $exerciseData = $this->mergeTestsTomlAndCanonicalData(
-            //     $testsToml,
-            //     $canonicalData,
-            // );
+
+            $this->mergeTestsTomlIntoCanonicalData(
+                $canonicalData,
+                $testsToml,
+            );
 
             $renderedTests = $this->renderTemplate(
                 $twigTemplateFile,
@@ -214,6 +219,82 @@ class UpdateCommand extends SingleCommandApplication
     protected function testsTomlData(string $file): array
     {
         return TomlParser::parse((string)file_get_contents($file));
+    }
+
+    /**
+     * Remove tests that are `include = false` in tests.toml and use description
+     * from tests.toml (this is a combined description for nested cases)
+     *
+     * @param object $canonicalData
+     * @param array<string, array<string, array{}|bool|int|string>|bool|int|string> $testsTomlData
+     */
+    protected function mergeTestsTomlIntoCanonicalData(
+        object $canonicalData,
+        array $testsTomlData,
+    ): void {
+        $excludedTests = array_filter(
+            $testsTomlData,
+            static function (mixed $props, string $key): bool {
+                if (!is_array($props)) {
+                    throw new InvalidArgumentException(
+                        'Unusable test case in tests.toml "' . $key . '"'
+                    );
+                }
+
+                return isset($props['include']) && ($props['include'] === false);
+            },
+            ARRAY_FILTER_USE_BOTH,
+        );
+
+        if (
+            !(
+                isset($canonicalData->cases)
+                && is_array($canonicalData->cases)
+            )
+        ) {
+            throw new InvalidArgumentException(
+                'No test cases in canonical data.'
+            );
+        }
+
+        foreach ($canonicalData->cases as $key => $case) {
+            if (
+                !(
+                    is_object($case)
+                    && isset($case->uuid)
+                    && is_string($case->uuid)
+                    && isset($case->description)
+                )
+            ) {
+                throw new InvalidArgumentException(
+                    'Unusable test case in canonical data "' . $key . '"'
+                );
+            }
+
+            if (isset($excludedTests[$case->uuid])) {
+                unset($canonicalData->cases[$key]);
+                continue;
+            }
+
+            if (
+                !(
+                    isset($testsTomlData[$case->uuid])
+                    && is_array($testsTomlData[$case->uuid])
+                )
+            ) {
+                throw new InvalidArgumentException(
+                    'Missing test in tests.toml "' . $case->uuid . '"'
+                );
+            }
+
+            if (!isset($testsTomlData[$case->uuid]['description'])) {
+                throw new InvalidArgumentException(
+                    'Missing test description in tests.toml "' . $case->uuid . '"'
+                );
+            }
+
+            $case->description = $testsTomlData[$case->uuid]['description'];
+        }
     }
 
     protected function renderTemplate(string $twigTemplate, object $canonicalData): string

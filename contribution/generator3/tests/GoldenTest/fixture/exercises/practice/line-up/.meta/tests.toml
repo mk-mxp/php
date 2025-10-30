@@ -58,10 +58,11 @@ description = "format exceptional ordinal numeral 62"
 description = "format exceptional ordinal numeral 100"
 
 [0375f250-ce92-4195-9555-00e28ccc4d99]
-description = "format exceptional ordinal numeral 101"
+description = "different description from canonical -> format exceptional ordinal numeral 101"
 
 [0d8a4974-9a8a-45a4-aca7-a9fb473c9836]
 description = "format non-exceptional ordinal numeral 112"
+include = false
 
 [06b62efe-199e-4ce7-970d-4bf73945713f]
 description = "format exceptional ordinal numeral 123"
