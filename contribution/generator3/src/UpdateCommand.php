@@ -92,9 +92,9 @@ class UpdateCommand extends SingleCommandApplication
             $canonicalData = $this->canonicalData(
                 $canonicalDataFile,
             );
-            // TODO: $testsToml = $this->testsTomlData(
-            //     $testsTomlFile,
-            // );
+            $testsToml = $this->testsTomlData(
+                $testsTomlFile,
+            );
             // TODO: $exerciseData = $this->mergeTestsTomlAndCanonicalData(
             //     $testsToml,
             //     $canonicalData,
@@ -204,6 +204,11 @@ class UpdateCommand extends SingleCommandApplication
         return (object)\json_decode((string)file_get_contents($canonicalData), flags: \JSON_THROW_ON_ERROR);
     }
 
+    /** @return array<string, array{}|bool|int|string> */
+    protected function testsTomlData(string $file): array
+    {
+        return TomlParser::parse((string)file_get_contents($file));
+    }
 
     protected function renderTemplate(string $twigTemplate, object $canonicalData): string
     {
