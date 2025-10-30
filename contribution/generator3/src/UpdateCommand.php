@@ -117,6 +117,7 @@ class UpdateCommand extends SingleCommandApplication
             );
 
             var_dump($renderedTests);
+            var_dump($this->pascalCase($exerciseSlug) . 'Test.php');
         } catch (Throwable $exception) {
             $logger->error($exception);
             return self::FAILURE;
@@ -312,7 +313,7 @@ class UpdateCommand extends SingleCommandApplication
         $twigEnvironment->addExtension(new DebugExtension());
         $twigEnvironment->addFunction(new TwigFunction(
             'testfn',
-            static fn (string $label): string => 'test' . str_replace(' ', '', ucwords(preg_replace('/[^a-zA-Z0-9]/', ' ', $label) ?? ''))
+            fn (string $label): string => 'test' . $this->pascalCase($label),
         ));
         $template = (string)file_get_contents($twigTemplate);
 
@@ -320,5 +321,16 @@ class UpdateCommand extends SingleCommandApplication
             ->createTemplate($template, $twigTemplate)
             ->render(['data' => $canonicalData])
             ;
+    }
+
+    protected function pascalCase(string $text): string
+    {
+        return str_replace(
+            ' ',
+            '',
+            ucwords(
+                preg_replace('/[^a-zA-Z0-9]/', ' ', $text) ?? '',
+            ),
+        );
     }
 }
