@@ -28,6 +28,7 @@ class UpdateCommand extends SingleCommandApplication
 {
     private const EXERCISES_PATH = '/exercises/practice/';
     private const TEMPLATE_PATH = '/.meta/tests.php.twig';
+    private const TESTS_TOML_PATH = '/.meta/tests.toml';
 
     public function __construct()
     {
@@ -77,6 +78,9 @@ class UpdateCommand extends SingleCommandApplication
             $twigTemplateFile = $this->usableTwigTemplateFile(
                 $exercisePath,
             );
+            $testsTomlFile = $this->usableTestsTomlFile(
+                $exercisePath,
+            );
             $canonicalDataFile = $this->usableCanonicalDataFile(
                 $input->getArgument('canonical-data'),
                 $exerciseSlug,
@@ -87,6 +91,14 @@ class UpdateCommand extends SingleCommandApplication
             $canonicalData = $this->exerciseData(
                 $canonicalDataFile,
             );
+            // TODO: $testsToml = $this->testsTomlData(
+            //     $testsTomlFile,
+            // );
+            // TODO: $exerciseData = $this->mergeTestsTomlAndCanonicalData(
+            //     $testsToml,
+            //     $canonicalData,
+            // );
+
             $renderedTests = $this->renderTemplate(
                 $twigTemplateFile,
                 $canonicalData,
@@ -156,6 +168,22 @@ class UpdateCommand extends SingleCommandApplication
         }
 
         return $twigTemplate;
+    }
+
+    protected function usableTestsTomlFile(string $exercisePath): string
+    {
+        return $this->readableFile($exercisePath, self::TESTS_TOML_PATH);
+    }
+
+    protected function readableFile(string $basePath, string $pathToFile): string
+    {
+        $file = $basePath . $pathToFile;
+
+        if (!\is_file($file) || !\is_readable($file)) {
+            throw new InvalidArgumentException('No readable file "' . $file . '"');
+        }
+
+        return $file;
     }
 
     protected function usableCanonicalDataFile(mixed $rawCanonicalData, string $exerciseSlug): string
