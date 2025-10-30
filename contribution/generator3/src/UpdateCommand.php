@@ -74,22 +74,22 @@ class UpdateCommand extends SingleCommandApplication
                 $projectDir,
                 $exerciseSlug,
             );
-            $twigTemplate = $this->usableTwigTemplate(
+            $twigTemplateFile = $this->usableTwigTemplateFile(
                 $exercisePath,
             );
-            $canonicalData = $this->usableCanonicalData(
+            $canonicalDataFile = $this->usableCanonicalDataFile(
                 $input->getArgument('canonical-data'),
                 $exerciseSlug,
             );
 
             $logger->notice('Updating exercise in path: ' . $exercisePath);
 
-            $exerciseData = $this->exerciseData(
-                $canonicalData,
+            $canonicalData = $this->exerciseData(
+                $canonicalDataFile,
             );
             $renderedTests = $this->renderTemplate(
-                $twigTemplate,
-                $exerciseData,
+                $twigTemplateFile,
+                $canonicalData,
             );
 
             var_dump($renderedTests);
@@ -147,7 +147,7 @@ class UpdateCommand extends SingleCommandApplication
         return $exercisePath;
     }
 
-    protected function usableTwigTemplate(string $exercisePath): string
+    protected function usableTwigTemplateFile(string $exercisePath): string
     {
         $twigTemplate = $exercisePath . self::TEMPLATE_PATH;
 
@@ -158,7 +158,7 @@ class UpdateCommand extends SingleCommandApplication
         return $twigTemplate;
     }
 
-    protected function usableCanonicalData(mixed $rawCanonicalData, string $exerciseSlug): string
+    protected function usableCanonicalDataFile(mixed $rawCanonicalData, string $exerciseSlug): string
     {
         $trackRoot = (string)realpath(__DIR__ . '/../../../');
         $canonicalData = $rawCanonicalData
